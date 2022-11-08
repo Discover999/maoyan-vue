@@ -1,32 +1,39 @@
+<!-- 主页面层 -->
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </nav>
-    <router-view/>
+  <div id="main">
+    <!-- 各路由组件 -->
+    <router-view :cityip="cityip" :cityname="cityname" @setCity="setCity">
+    </router-view>
+
+    <!-- 底部Bar组件 -->
+    <tab-bar></tab-bar>
   </div>
 </template>
 
+<script>
+import TabBar from "./components/TabBar.vue";
+
+export default {
+  data() {
+    return {
+      cityip: 20,
+      cityname: "广州",
+    };
+  },
+  components: {
+    TabBar,
+  },
+  methods: {
+    setCity(obj) {
+      let cname = obj.cname;
+      let cip = obj.cip;
+      this.cityip = cip;
+      this.cityname = cname;
+      console.log("城市id => ",cip);
+    },
+  },
+};
+</script>
+
 <style lang="less">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>

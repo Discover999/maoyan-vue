@@ -1,0 +1,48 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+.main{
+    min-width: 320px;
+    max-width: 750px;
+    margin: 0 auto;
+}
+html,body{
+    width:100%;
+    height: 100%;
+}
+a{
+    text-decoration: none;
+    color: #404040;
+}
+img{
+    display: block;
+}
+ul,ol{
+    list-style: none;
+
+}
+h1{
+    font-weight: normal;
+    font-size: 20px;
+}
+h2{
+    font-weight: normal;
+    font-size: 18px;
+}
+h3{
+    font-weight: normal;
+    font-size: 16px;
+}
+h4{
+    font-weight: normal;
+    font-size: 14px;
+}
+h5{
+    font-weight: normal;
+    font-size: 12px;
+}
+h6{
+    font-weight: normal;
+    font-size: 10px;
+}
