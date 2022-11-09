@@ -12,6 +12,8 @@
           {{ item }}
         </div>
       </div>
+    </van-index-bar>
+    <van-index-bar>
       <van-index-anchor index="A" />
       <van-cell
         :title="item.nm"
