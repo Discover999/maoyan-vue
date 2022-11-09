@@ -6,7 +6,7 @@
 
   [![Node.js](https://img.shields.io/badge/-Node.js-339933?style=plastic&logo=Node.js)](https://nodejs.org/zh-cn/)
   [![NPM](https://img.shields.io/badge/-NPM-CB3837?style=plastic&logo=npm)](https://www.npmjs.com/package/npm)
-  [![Vue.js](https://img.shields.io/badge/-Vue-4FC08D?style=plastic&logo=vue.js)](https://v2.cn.vuejs.org/)
+  [![Vue.js](https://img.shields.io/badge/-Vue.js-4FC08D?style=plastic&logo=vue.js)](https://v2.cn.vuejs.org/)
   [![VSCode](https://img.shields.io/badge/-VSCode-007ACC?style=plastic&logo=visual-studio-code)](https://code.visualstudio.com/)
 
 ## 如何使用
