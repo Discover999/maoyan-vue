@@ -29,6 +29,10 @@
         <div class="user">
           <img :src="item.user.avatarurl" alt="" />
           <div class="username">{{ item.user.nickName }}</div>
+          <div class="videoup">
+            <img class="upCount" src="@/assets/img/up.png" alt="" />
+            <span>{{ item.upCount }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -119,7 +123,7 @@ export default {
       margin: 0 8px;
       display: flex;
       align-items: center;
-      font-size: 12px;
+      // font-size: 12px;
       position: absolute;
       bottom: 10px;
       img {
@@ -131,6 +135,7 @@ export default {
         display: block;
       }
       .username {
+        // 用户名
         margin: 0 6px;
         flex: 1;
         display: inline-block;
@@ -139,6 +144,22 @@ export default {
         text-overflow: ellipsis;
         color: #fff;
         font-size: 14px;
+      }
+      .videoup {
+        // 点赞样式
+        display: flex;
+        margin-left: 24px;
+        .upCount {
+          height: 19px;
+          width: 19px;
+        }
+        span {
+          // 点赞数
+          margin-top: 2px;
+          margin-left: 4px;
+          font-size: 14px;
+          color: #fff;
+        }
       }
     }
   }
