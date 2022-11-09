@@ -1,18 +1,18 @@
 <template>
   <div class="main">
     <!-- 视频流列表 -->
-    <div class="videostream" @click="toplay">
+    <div class="videostream">
       <div
         class="videolist"
         v-for="item in VideoList"
         :key="item.id"
         :style="{ 'background-image': 'url(' + item.images[0].url + ')' }"
       >
-        <p>{{ item.title }}</p>
-
-        <!-- 播放按钮 -->
-        <img class="play-btn" src="@/assets/img/video-btn-play.png" alt="" />
-
+        <div @click="toplay">
+          <p>{{ item.title }}</p>
+          <!-- 播放按钮 -->
+          <img class="play-btn" src="@/assets/img/video-btn-play.png" alt="" />
+        </div>
         <!-- 底部信息bar -->
         <div class="info-bar">
           <div class="time">
