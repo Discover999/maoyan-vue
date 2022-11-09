@@ -27,7 +27,7 @@ service.interceptors.request.use(
         return config
     },
     (error) => {
-        Toast.clear();  // 清除加载
+        Toast.clear();  // 清除加载提示框
         console.log("[axios] request报错...", error);
         Promise.reject(error)
     }
@@ -40,8 +40,8 @@ service.interceptors.response.use(
         return response.data;
     },
     (error) => {
-        Toast.clear();
-
+        // 加载失败提示
+        Toast.fail('加载失败');
         console.log("[axios] response报错...", error);
         Promise.reject(error)
     }
