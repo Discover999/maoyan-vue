@@ -77,13 +77,13 @@ const routes = [
     path: '/videos',
     name: "videos",
     // 重定向推荐页
-    redirect: '/videos/index',
+    redirect: '/videos/recommend',
     component: Video,
     children: [
       {
         // 视频 => 推荐
-        path: "index",
-        name: "index",
+        path: "recommend",
+        name: "recommend",
         component: () => import("../views/Videos/Video1.vue")
       },
       {

@@ -37,7 +37,7 @@ export default {
   methods: {
     // 推荐
     govideo() {
-      this.$router.push("/videos/index");
+      this.$router.push("/videos/recommend");
     },
     // 热片解读
     govideo2() {
