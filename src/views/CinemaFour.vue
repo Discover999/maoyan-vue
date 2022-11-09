@@ -2,10 +2,13 @@
 <template>
   <div class="main">
     <div class="classic">
-      <div class="movie" 
-      v-for="item in classiclist" 
-      :key="item.movieId"
-      @click="$router.push({name:'MovieDetail',query:{id:item.movieId}})"
+      <div
+        class="movie"
+        v-for="item in classiclist"
+        :key="item.movieId"
+        @click="
+          $router.push({ name: 'MovieDetail', query: { id: item.movieId } })
+        "
       >
         <!-- 列左图片 -->
         <div class="img">
@@ -28,17 +31,23 @@
         </div>
       </div>
     </div>
+    <!-- 底部导航栏 -->
+    <tab-bar></tab-bar>
   </div>
 </template>
   
 <script>
 import { getClassicList } from "../api/classic.js";
+import TabBar from "@/components/TabBar.vue";
 
 export default {
   data() {
     return {
       classiclist: null,
     };
+  },
+  components: {
+    TabBar,
   },
   methods: {
     getClassiclistFun() {

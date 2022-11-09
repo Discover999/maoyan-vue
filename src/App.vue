@@ -6,12 +6,12 @@
     </router-view>
 
     <!-- 底部Bar组件 -->
-    <tab-bar></tab-bar>
+    <!-- <tab-bar></tab-bar> -->
   </div>
 </template>
 
 <script>
-import TabBar from "./components/TabBar.vue";
+// import TabBar from "./components/TabBar.vue";
 
 export default {
   data() {
@@ -20,9 +20,9 @@ export default {
       cityname: "广州",
     };
   },
-  components: {
-    TabBar,
-  },
+  // components: {
+  //   TabBar,
+  // },
   methods: {
     setCity(obj) {
       let cname = obj.cname;

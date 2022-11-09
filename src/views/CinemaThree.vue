@@ -48,17 +48,24 @@
         </div>
       </div>
     </div>
+    <!-- 底部导航栏 -->
+    <tab-bar></tab-bar>
   </div>
 </template>
   
 <script>
 import { getReadyMovie, getReadyMovieList } from "../api/ready.js";
+import TabBar from "@/components/TabBar.vue";
+
 export default {
   data() {
     return {
       expectlist: null,
       readylist: null,
     };
+  },
+  components: {
+    TabBar,
   },
   methods: {
     getReadyMovieFun() {

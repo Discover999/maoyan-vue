@@ -14,7 +14,12 @@
         v-for="item in ShortVideoList"
         :key="item.id"
         :style="{ 'background-image': 'url(' + item.images[0].url + ')' }"
-        @click="$router.push({ name: 'VideoPlay',query:{videoUrl:item.video.url} })"
+        @click="
+          $router.push({
+            name: 'VideoPlay',
+            query: { videoUrl: item.video.url },
+          })
+        "
       >
         <p>{{ item.title }}</p>
         <div class="user">
@@ -23,17 +28,23 @@
         </div>
       </div>
     </div>
+    <!-- 底部导航栏 -->
+    <tab-bar></tab-bar>
   </div>
 </template>
   
 <script>
 import { getShortVideo } from "@/api/video.js";
+import TabBar from "@/components/TabBar.vue";
 
 export default {
   data() {
     return {
       ShortVideoList: null,
     };
+  },
+  components: {
+    TabBar,
   },
   methods: {
     getShortVideoFun() {

@@ -67,11 +67,13 @@
         </div>
       </div>
     </div>
+    <tab-bar></tab-bar>
   </div>
 </template>
   
 <script>
 import { getNiceMovie, getMovieList } from "../api/home.js";
+import TabBar from "@/components/TabBar.vue";
 
 export default {
   data() {
@@ -79,6 +81,9 @@ export default {
       topRatedMovies: null,
       MoreMovieList: null,
     };
+  },
+  components: {
+    TabBar,
   },
 
   methods: {
