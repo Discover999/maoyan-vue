@@ -8,6 +8,11 @@ import "./assets/font/iconfont.css"
 import { Toast } from 'vant'
 import { IndexBar, IndexAnchor } from 'vant';
 import { Cell, CellGroup } from 'vant';
+import { Tab, Tabs } from 'vant';
+import { TreeSelect } from 'vant';
+import { Icon } from 'vant';
+import { Dialog } from 'vant';
+
 // import 'vant/lib/index.css'
 
 Vue.config.productionTip = false
@@ -16,6 +21,11 @@ Vue.use(Cell);
 Vue.use(CellGroup);
 Vue.use(IndexBar);
 Vue.use(IndexAnchor);
+Vue.use(Tab);
+Vue.use(Tabs);
+Vue.use(TreeSelect);
+Vue.use(Icon);
+Vue.use(Dialog);
 
 new Vue({
   router,

@@ -311,7 +311,7 @@ export default {
 };
 </script>
   
-<style lang="less">
+<style lang="less" scoped>
 .main1 {
   background: #ebebeb;
 }

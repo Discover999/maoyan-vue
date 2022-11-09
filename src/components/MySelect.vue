@@ -18,6 +18,15 @@
           <span class="iconfont icon-xiajiantou"></span>
         </div>
       </div>
+      <div class="t1">
+        <van-tabs v-model="active">
+          <van-tree-select
+            :items="items"
+            :active-id.sync="activeId"
+            :main-active-index.sync="activeIndex"
+          />
+        </van-tabs>
+      </div>
     </div>
   </div>
 </template>

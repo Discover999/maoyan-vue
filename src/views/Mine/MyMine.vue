@@ -26,14 +26,22 @@
         </div>
       </div>
     </div>
-    <div class="logout" @click="clear_data">
-      <p>注销</p>
+    <div class="bottom-banner">
+      <div class="logout" @click="clear_data">
+        <p>注销</p>
+        <van-icon name="arrow" />
+      </div>
+      <div class="about" @click="about">
+        <p>关于</p>
+        <van-icon name="arrow" />
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { Toast } from "vant";
+import { Dialog } from "vant";
 
 export default {
   methods: {
@@ -46,17 +54,28 @@ export default {
         window.location.reload(); // 刷新页面
       }, 1500); // 延迟1.5s刷新
     },
+    about() {
+      // 关于弹窗
+      Dialog.alert({
+        // title: "标题",
+        message: "基于Vue2开发的仿猫眼App\n项目仅供交流学习\n",
+      }).then(() => {
+        // on close
+      });
+    },
   },
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .myb {
+  // 全局样式
   position: absolute;
   background: #f4f4f4;
   width: 100%;
   height: 100%;
   .mineTop {
+    // 头部banner
     background: #e54847;
     padding: 14px 0;
     font-size: 18px;
@@ -64,6 +83,7 @@ export default {
     color: #fff;
   }
   .mineHead {
+    // 头像底部背景样式
     width: 100%;
     height: 150px;
     background-image: url(@/assets/img/bg.png);
@@ -73,6 +93,7 @@ export default {
     justify-content: center;
     align-items: center;
     .shot {
+      // 头像样式
       width: 66px;
       height: 66px;
       border-radius: 50%;
@@ -86,6 +107,7 @@ export default {
     }
   }
   .mylist {
+    // 我的订单列
     margin-top: 10px;
     padding: 0 15px;
     background: #fff;
@@ -190,20 +212,31 @@ export default {
       }
     }
   }
-  .logout {
-    -webkit-text-size-adjust: 100%;
-    user-select: none;
-    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-    font: 14px/1.5 Arial, Helvetica, sans-serif;
+  .bottom-banner {
+    // 底部样式
     margin-top: 10px;
-    background: #fff;
-    position: relative;
-    height: 44px;
-    line-height: 44px;
-    p {
-      font-size: 15px;
-      margin-left: 15px;
-      color: #333;
+    .logout,
+    .about {
+      justify-content: space-between;
+      display: flex;
+      font: 14px/1.5 Arial, Helvetica, sans-serif;
+      background: #fff;
+      border-bottom: 1px solid #e8e8e8;
+      position: relative;
+      height: 44px;
+      line-height: 44px;
+      p {
+        font-size: 15px;
+        margin-left: 15px;
+        color: #333;
+      }
+      .van-icon {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        right: 15px;
+        color: #cdcdcd;
+      }
     }
   }
 }
