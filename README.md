@@ -18,7 +18,7 @@
 
 ## 技术栈
 
-Vue2.6 + Vuex + Vue Router + axios
+Vue2.6 + Vuex + Vue Router + axios + less + vant
 
 ## 项目演示
 
