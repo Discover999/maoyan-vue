@@ -63,7 +63,7 @@ export default {
 };
 </script>
   
-<style lang="less">
+<style lang="less" scoped>
 .main {
   .classic {
     padding-top: 16px;
@@ -94,14 +94,18 @@ export default {
         }
       }
       .score {
+        // 评分样式
         display: flex;
         margin-right: 10px;
         span {
           color: #faaf00;
-          font-size: 16px;
+          font-size: 15px;
+          font: bold;
+          text-align: center;
+          white-space: nowrap;
         }
         div {
-          margin-top: 4px;
+          margin-top: 1.5px;
           font-size: 12px;
           color: #999999;
         }
