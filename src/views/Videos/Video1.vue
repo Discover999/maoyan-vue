@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <!-- 视频流列表 -->
-    <div class="videostream">
+    <div class="videostream" @click="toplay">
       <div
         class="videolist"
         v-for="item in VideoList"
@@ -45,20 +45,27 @@
     <tab-bar></tab-bar>
   </div>
 </template>
-  <script>
+
+<script>
 import { getVideos } from "@/api/video.js";
 import TabBar from "@/components/TabBar.vue";
 
 export default {
+  props: [],
   data() {
     return {
       VideoList: null,
+      name: "helloworld",
     };
   },
   components: {
     TabBar,
   },
   methods: {
+    toplay() {
+      this.$emit("hello", this.name);
+      this.$router.push("/play");
+    },
     getVideosFun() {
       getVideos().then((data) => {
         this.VideoList = data.data.feeds;

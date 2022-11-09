@@ -36,14 +36,20 @@
         <van-icon name="arrow" />
       </div>
     </div>
+    <!-- 底部导航栏 -->
+    <tab-bar></tab-bar>
   </div>
 </template>
 
 <script>
 import { Toast } from "vant";
 import { Dialog } from "vant";
+import TabBar from "@/components/TabBar.vue";
 
 export default {
+  components: {
+    TabBar,
+  },
   methods: {
     // 注销方法
     // 清空 localStorage 存储实现

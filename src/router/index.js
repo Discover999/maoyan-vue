@@ -109,8 +109,14 @@ const routes = [
         path: "zongyi",
         name: "zongyi",
         component: () => import("../views/Videos/Video5.vue")
-      }
+      },
     ]
+  },
+  {
+    // 视频播放页
+    path: "/play",
+    name: "play",
+    component: () => import("../views/Videos/VideoPlay.vue")
   },
   {
     // 小视频页面
