@@ -11,7 +11,7 @@ export function getShortVideo() {
 
 // 视频 => 推荐
 // https://apis.netstart.cn/maoyan/video/0
-export function getVideos() {
+export function getVideos1() {
     return request({
         url: "video/0",
         method: "get"

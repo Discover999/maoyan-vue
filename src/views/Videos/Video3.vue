@@ -8,10 +8,11 @@
         :key="item.id"
         :style="{ 'background-image': 'url(' + item.images[0].url + ')' }"
       >
-        <p>{{ item.title }}</p>
-
-        <!-- 播放按钮 -->
-        <img class="play-btn" src="@/assets/img/video-btn-play.png" alt="" />
+        <div @click="toplay(item.id)">
+          <p>{{ item.title }}</p>
+          <!-- 播放按钮 -->
+          <img class="play-btn" src="@/assets/img/video-btn-play.png" alt="" />
+        </div>
 
         <!-- 底部信息bar -->
         <div class="info-bar">
@@ -52,16 +53,25 @@ export default {
   data() {
     return {
       VideoList: null,
+      id: "", // 视频id
+      page: "", // 来源页
     };
   },
   components: {
     TabBar,
   },
   methods: {
+    // 跳转视频播放页
+    toplay(id) {
+      this.$router.push({
+        name: "play",
+        query: { page: "getVideos3", vid: id },
+      });
+    },
     getVideosFun() {
       getVideos3().then((data) => {
         this.VideoList = data.data.feeds;
-        // console.log("视频接口数据 ==>", this.VideoList);
+        console.log("视频接口3数据 ==>", this.VideoList);
       });
     },
   },

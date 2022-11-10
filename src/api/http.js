@@ -7,7 +7,7 @@ import { Toast } from 'vant';
 
 const service = axios.create({
     baseURL: "https://apis.netstart.cn/maoyan",
-    timeout: 30000,  //超时时间
+    timeout: 40000,  //超时时间
     headers: {
         "Content-Type": "application/json;chatset=utf-8",
     }

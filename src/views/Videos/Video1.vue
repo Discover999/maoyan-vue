@@ -8,7 +8,8 @@
         :key="item.id"
         :style="{ 'background-image': 'url(' + item.images[0].url + ')' }"
       >
-        <div @click="toplay">
+        <!-- 带id跳转播放页 -->
+        <div @click="toplay(item.id)">
           <p>{{ item.title }}</p>
           <!-- 播放按钮 -->
           <img class="play-btn" src="@/assets/img/video-btn-play.png" alt="" />
@@ -47,7 +48,7 @@
 </template>
 
 <script>
-import { getVideos } from "@/api/video.js";
+import { getVideos1 } from "@/api/video.js";
 import TabBar from "@/components/TabBar.vue";
 
 export default {
@@ -55,21 +56,29 @@ export default {
   data() {
     return {
       VideoList: null,
-      name: "helloworld",
+      id: "", // 视频id
+      page: "", // 来源页
     };
   },
   components: {
     TabBar,
   },
   methods: {
-    toplay() {
-      this.$emit("hello", this.name);
-      this.$router.push("/play");
+    // 跳转视频播放页
+    toplay(id) {
+      this.$router.push({
+        name: "play", // 路由定义的 name
+        // params: {  // params 传参刷新会刷掉参数而报错
+        //   vid: id,
+        // },
+        query: { page: "getVideos1", vid: id }, // 使用 query 传参防止刷新出错
+      });
     },
     getVideosFun() {
-      getVideos().then((data) => {
+      // 获取视频接口数据
+      getVideos1().then((data) => {
         this.VideoList = data.data.feeds;
-        // console.log("视频接口数据 ==>", this.VideoList);
+        // console.log("视频接口1数据 ==>", this.VideoList);
       });
     },
   },
