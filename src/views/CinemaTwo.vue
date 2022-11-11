@@ -24,7 +24,7 @@
         </div>
 
         <div class="tag2" v-if="item.discount[0]">
-          <img src="@/assets/img/star.png" alt="" />
+          <img src="@/assets/img/card.png" alt="" />
         </div>
       </div>
     </div>
@@ -43,6 +43,15 @@ export default {
   components: {
     MySelect,
     TabBar,
+  },
+  data() {
+    return {
+      cinemaList: null,
+      districid: null, //行政区id
+      halltype: null, // 影厅类型
+      brandid: null, //品牌
+      serviceid: null, //影院服务
+    };
   },
   props: ["cityip"],
   methods: {
@@ -66,15 +75,6 @@ export default {
       this.serviceid = id;
       this.getCinemasFun();
     },
-    data() {
-      return {
-        cinemaList: null,
-        districid: null, //行政区id
-        halltype: null, // 影厅类型
-        brandid: null, //品牌
-        serviceid: null, //影院服务
-      };
-    },
     getCinemasFun() {
       getmoreCinemas({
         cityid: this.cityip,
@@ -90,6 +90,11 @@ export default {
   },
   created() {
     this.getCinemasFun();
+  },
+  watch: {
+    cityid: function () {
+      this.getCinemasFun();
+    },
   },
 };
 </script>
@@ -137,7 +142,7 @@ export default {
         border: 1px solid #a8ccd5;
         border-radius: 6px;
         margin-right: 4px;
-        color: #fff;
+        color: red;
       }
       .bor {
         border-color: #ffca7b;
@@ -145,7 +150,7 @@ export default {
     }
     .tag2 {
       display: flex;
-      color: #999999;
+      color: red;
       font-size: 12px;
       align-items: center;
       margin-top: 8px;

@@ -24,7 +24,7 @@
     <div class="current">
       <div class="city" @click="gocity">
         <!-- <router-link class="city" tag="div" to="/position"></router-link> -->
-        <span>{{cityname}}</span>
+        <span>{{ cityname }}</span>
         <span class="iconfont icon-xiajiantou"></span>
       </div>
 
@@ -108,7 +108,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 // 去除四周白边
 * {
   margin: 0;

@@ -92,7 +92,7 @@
             <div
               v-for="(item, index) in featureWay"
               :key="item.id"
-              :class="['pat1', index == contype ? 'con' : '']"
+              :class="['pat1', index == contype1 ? 'con' : '']"
               @click="activeCon1(index)"
             >
               {{ item.name }}
@@ -116,7 +116,7 @@ export default {
       light: false, // 遮罩层
       type: 0, //选项卡状态
       contype: 0, //点击功能高亮
-      contype1: 1,
+      contype1: 0,
 
       activeId: 0,
       activeIndex: 0,
@@ -187,11 +187,11 @@ export default {
     // 点击选项卡左右侧
     ck(index) {
       this.$emit("becomedid", this.items[index].id);
-      this.light = false;
+      this.light = true;
     },
     cj(index) {
-      this.$emit("becomedid", this.index.id);
-      console.log(index.id);
+      this.$emit("becomedid", index.id);
+      console.log("区域代码 => ",index.id);
       this.light = false;
     },
     onLoad() {
@@ -268,6 +268,20 @@ export default {
   },
   created() {
     this.getCinemaFun();
+  },
+  watch: {
+    type: function (newnum, oldnum) {
+      console.log("新值 => ", newnum);
+      console.log("旧值 => ", oldnum);
+      if (newnum != oldnum && newnum != 0) {
+        this.light = true;
+      }
+    },
+    light: function () {
+      if (this.light == false) {
+        this.type = 0;
+      }
+    },
   },
 };
 </script>
