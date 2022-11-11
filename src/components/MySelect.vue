@@ -1,26 +1,32 @@
 <template>
   <div>
     <!-- 下拉菜单 -->
-    <div class="opcity"></div>
+    <div class="opcity" @click="openLight"></div>
     <!-- 筛选区域 -->
     <div class="bigbox">
       <div class="alltag">
         <div :class="['city', type == 1 ? 'con' : '']" @click="typeOne(1)">
           全城
-          <span class="iconfont icon-xiajiantou"></span>
+          <span
+            :class="['iconfont icon-xiajiantou', type == 1 ? 'toy' : '']"
+          ></span>
         </div>
         <div :class="['brand', type == 2 ? 'con' : '']" @click="typeOne(2)">
           品牌
-          <span class="iconfont icon-xiajiantou"></span>
+          <span
+            :class="['iconfont icon-xiajiantou', type == 2 ? 'toy' : '']"
+          ></span>
         </div>
-        <div class="feature">
+        <div :class="['feature', type == 3 ? 'con' : '']" @click="typeOne(3)">
           特色
-          <span class="iconfont icon-xiajiantou"></span>
+          <span
+            :class="['iconfont icon-xiajiantou', type == 3 ? 'toy' : '']"
+          ></span>
         </div>
       </div>
 
       <!-- 点击高亮遮罩层 -->
-      <!--  -->
+      <!-- 全城详细 -->
       <div class="t1" v-show="type == 1">
         <van-tabs v-model="active">
           <van-tab title="商圈">
@@ -62,6 +68,38 @@
           </van-cell>
         </van-list>
       </div>
+      <!-- 特色详细 -->
+      <div class="t3" v-show="type == 3">
+        <!-- 特色功能 -->
+        <div class="top" v-if="area">
+          <div class="bot1">特色功能</div>
+          <div class="bot2">
+            <div
+              v-for="(item, index) in area"
+              :key="item.id"
+              :class="['pat1', index == contype ? 'con' : '']"
+              @click="activeCon(index)"
+            >
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+
+        <!-- 特色厅 -->
+        <div class="top" v-if="area">
+          <div class="bot1">特色厅</div>
+          <div class="bot2">
+            <div
+              v-for="(item, index) in featureWay"
+              :key="item.id"
+              :class="['pat1', index == contype ? 'con' : '']"
+              @click="activeCon1(index)"
+            >
+              {{ item.name }}
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -77,6 +115,8 @@ export default {
     return {
       light: false, // 遮罩层
       type: 0, //选项卡状态
+      contype: 0, //点击功能高亮
+      contype1: 1,
 
       activeId: 0,
       activeIndex: 0,
@@ -87,6 +127,8 @@ export default {
       selectNum: 0,
       loading: false,
       finished: false,
+      area: null,
+      featureWay: "",
 
       // 商圈items
       items: [
@@ -138,7 +180,7 @@ export default {
     },
     // 点击品牌
     becomearea(index) {
-      this.$emit("becomeid", this.list[index].id);
+      this.$emit("becomebid", this.list[index].id);
       this.selectNum = index;
       this.light = false;
     },
@@ -169,6 +211,20 @@ export default {
           this.finished = true;
         }
       }, 1000);
+    },
+    // 特色高亮
+    activeCon(index) {
+      this.contype = index;
+      this.$emit("becomeid", this.area[index].id);
+    },
+    activeCon1(index) {
+      this.contype = index;
+      this.$emit("becomeid", this.featureWay[index].id);
+      this.light = false;
+    },
+    openLight() {
+      this.light = false;
+      this.type = 0;
     },
     getCinemaFun() {
       // 获取商圈
@@ -203,6 +259,10 @@ export default {
         // 【品牌数据】
         this.list = data.brand.subItems;
         // console.log("【品牌数据】=> ", this.list);
+
+        // 特色
+        this.area = data.service.subItems; // 特色功能
+        this.featureWay = data.hallType.subItems; // 特色厅
       });
     },
   },
@@ -245,6 +305,16 @@ export default {
   .feature {
     text-align: center;
     flex: 1;
+    .iconfont {
+      font-size: 12px;
+      display: inline-block;
+    }
+  }
+  .con {
+    color: #e54847;
+    .toy {
+      transform: scale(0.8) rotate(180deg);
+    }
   }
   .t2 {
     .van-cell__value {
@@ -254,6 +324,44 @@ export default {
         font-size: 12px;
         color: #333;
         margin-right: 20px;
+      }
+    }
+  }
+  .t3 {
+    padding: 10px 12px;
+    .top {
+      .bot1 {
+        color: #777777;
+        height: 44px;
+        line-height: 44px;
+      }
+      .bot2 {
+        display: flex;
+        flex-wrap: wrap;
+        .con {
+          background: #f0f0f0 !important;
+          color: #e54847 !important;
+          border: 0.02rem solid #f03f37 !important;
+        }
+        .pat1 {
+          width: 75px;
+          height: 30px;
+          text-align: center;
+          line-height: 30px;
+          font-size: 12px;
+          border-radius: 8px;
+          margin-right: 12px;
+          border: 1px solid #dddddd;
+          margin-top: 10px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          color: #777777;
+          // padding: 3px 0;
+        }
+        .pat1:nth-child(4n + 4) {
+          margin-right: 0;
+        }
       }
     }
   }

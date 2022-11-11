@@ -65,7 +65,7 @@ export default {
     toplay(id) {
       this.$router.push({
         name: "play",
-        query: { page: "getVideos5", vid: id },
+        query: { page: "5", vid: id },
       });
     },
     getVideosFun() {
