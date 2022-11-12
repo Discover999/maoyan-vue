@@ -5,7 +5,7 @@
       <div class="vshow" v-if="VideoInfo">
         <div class="video">
           <video
-            class="video-play"
+            ref="Video"
             preload="auto"
             :src="VideoInfo.video.url"
             :poster="VideoInfo.video.imgUrl"
@@ -15,17 +15,20 @@
             playsinline="true"
             webkit-playsinline="true"
           />
-          <div class="topImg">
+          <div class="topImg" v-if="show" @click="play">
             <img alt="loading" :src="VideoInfo.video.imgUrl" />
-            <div class="pauseIcon"></div>
+            <div class="playbtn">
+              <img src="@/assets/img/play-video.png" alt="" />
+            </div>
           </div>
         </div>
         <div class="video-info">
           <div class="title">{{ VideoInfo.title }}</div>
           <div class="user-info">
-            <img class="userImg" alt="" :src="VideoInfo.user.avatarurl" />
+            <img alt="" :src="VideoInfo.user.avatarurl" />
             <div class="userName">{{ VideoInfo.user.nickName }}</div>
             <img
+              v-if="VideoInfo.user.identification"
               class="icon"
               src="//p0.meituan.net/moviemachine/5aaa710d72c78d6553be83f43bc9e4f3946.png"
               alt=""
@@ -49,6 +52,7 @@ export default {
   data() {
     return {
       VideoInfo: null,
+      show: true,
       new: null,
       id: "10086",
       page: "???",
@@ -89,6 +93,11 @@ export default {
         console.log("未匹配页面");
       }
     },
+    // 点击播放
+    play() {
+      this.show = false;
+      this.$refs.Video.play();
+    },
   },
   created() {
     this.id = this.$route.query.vid;
@@ -110,32 +119,73 @@ export default {
       .video {
         video {
           width: 100%;
-          position: absolute;
+          // position: absolute;
         }
         .topImg {
+          // 视频顶层遮罩
+          display: flex;
+          align-items: center;
+          z-index: 100;
+          position: absolute;
+          top: 0px;
+          left: 0px;
+          width: 100%;
           img {
-            width: 200px;
-            height: 300px;
+            width: 100%;
+          }
+          .playbtn {
+            display: flex;
+            align-items: center;
             z-index: 100;
+            position: absolute;
+            top: 45%;
+            left: 45%;
+            img {
+              width: 44px;
+              height: 44px;
+            }
           }
         }
       }
       .video-info {
-        width: 100%;
+        // 视频详情
         background: #fff;
         display: flex;
+        position: relative;
         flex-direction: column;
         padding: 14px 16px;
+        .title {
+          // 标题样式
+          color: #333;
+          line-height: 24px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         .user-info {
+          // 用户信息样式
           display: flex;
-          justify-content: left;
+          justify-content: flex-start;
+          align-items: center;
+          color: #333;
+          margin-top: 6px;
           img {
             width: 22px;
             height: 22px;
             opacity: 0.9;
-            border: 1px rgba(246, 234, 197);
             border-radius: 50%;
             display: block;
+          }
+          .userName {
+            margin: 0 6px;
+            font-size: 13px;
+          }
+          .icon {
+            height: 14px;
+            width: 14px;
+            display: flex;
+            align-items: center;
+            justify-items: center;
+            justify-content: center;
           }
         }
       }
