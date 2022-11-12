@@ -26,9 +26,11 @@
         <p>{{ item.title }}</p>
 
         <!-- 用户信息 -->
-        <div class="user">
-          <img :src="item.user.avatarurl" alt="" />
-          <div class="username">{{ item.user.nickName }}</div>
+        <div class="userinfo">
+          <div class="user">
+            <img :src="item.user.avatarurl" alt="" />
+            <div class="username">{{ item.user.nickName }}</div>
+          </div>
           <div class="videoup">
             <img class="upCount" src="@/assets/img/up.png" alt="" />
             <span>{{ item.upCount }}</span>
@@ -95,7 +97,7 @@ export default {
   flex-wrap: wrap;
   justify-content: space-between;
   box-sizing: border-box;
-  margin-bottom: 48px;
+  padding-bottom: 48px;
   margin-top: -0.4%;
 
   .smvideo {
@@ -118,37 +120,44 @@ export default {
       bottom: 40px;
       font-size: 16px;
     }
-    .user {
+    .userinfo {
       // 用户信息样式
-      margin: 0 8px;
+      margin-left: 8px;
       display: flex;
+      width: 90%;
       align-items: center;
       // font-size: 12px;
       position: absolute;
       bottom: 10px;
-      img {
-        width: 22px;
-        height: 22px;
-        opacity: 0.9;
-        border: 1px rgba(246, 234, 197);
-        border-radius: 50%;
-        display: block;
-      }
-      .username {
-        // 用户名
-        margin: 0 6px;
-        flex: 1;
-        display: inline-block;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        color: #fff;
-        font-size: 14px;
+      .user {
+        width: 65%;
+        display: flex;
+        // justify-content: left;
+        img {
+          width: 22px;
+          height: 22px;
+          opacity: 0.9;
+          border: 1px rgba(246, 234, 197);
+          border-radius: 50%;
+          display: block;
+        }
+        .username {
+          // 用户名
+          margin-left: 6px;
+          // display: inline-block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: #fff;
+          font-size: 14px;
+        }
       }
       .videoup {
         // 点赞样式
         display: flex;
-        margin-left: 24px;
+        width: 45%;
+        margin-left: 6px;
+        // margin-left: 20px;
         .upCount {
           height: 19px;
           width: 19px;
@@ -156,9 +165,14 @@ export default {
         span {
           // 点赞数
           margin-top: 2px;
-          margin-left: 4px;
+          // margin-left: 4px;
           font-size: 14px;
           color: #fff;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: #fff;
+          font-size: 14px;
         }
       }
     }
