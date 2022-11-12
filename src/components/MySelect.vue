@@ -202,7 +202,6 @@ export default {
     },
     onLoad() {
       // 异步更新数据
-      // setTimeout 仅做示例，真实场景中一般为 ajax 请求
       setTimeout(() => {
         for (let i = 0; i < 10; i++) {
           this.list.push(this.list.length + 1);
@@ -302,6 +301,7 @@ export default {
   // display: none;
 }
 .bigbox {
+  // 顶部选项卡样式
   position: absolute;
   width: 100%;
   top: 156px;
@@ -310,7 +310,7 @@ export default {
   .alltag {
     display: flex;
     margin: 0 18px;
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #f0f0f0;
     color: #777777;
     align-items: center;
     height: 40px;
@@ -318,7 +318,8 @@ export default {
   }
   .city,
   .brand {
-    border-right: 1px solid #f5f5f5;
+    // 选项卡分割线
+    border-right: 1px solid #e8e8e8;
   }
   .city,
   .brand,
