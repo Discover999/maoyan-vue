@@ -61,7 +61,7 @@ export default {
 };
 </script>
   
-<style lang="less">
+<style lang="less" scoped>
 .botmbar {
   position: fixed;
   bottom: 0;

@@ -29,11 +29,12 @@ export default {
       let cip = obj.cip;
       this.cityip = cip;
       this.cityname = cname;
-      console.log("城市id => ",cip);
+      console.log("城市id => ", cip);
     },
   },
 };
 </script>
 
 <style lang="less">
+@import "./assets/css/base.css";
 </style>

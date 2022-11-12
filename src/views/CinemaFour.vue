@@ -16,7 +16,7 @@
 
           <!-- 列左电影详情 -->
           <div class="details">
-            <h3>{{ item.movieInfo.title }}</h3>
+            <h2>{{ item.movieInfo.title }}</h2>
             <p>{{ item.movieInfo.englishTitle }}</p>
             <p>{{ item.movieInfo.actors }}</p>
             <p>{{ item.movieInfo.showInfo }}</p>
@@ -63,7 +63,7 @@ export default {
 };
 </script>
   
-<style lang="less" scoped>
+<style lang="less">
 .main {
   .classic {
     padding-top: 16px;
@@ -82,8 +82,9 @@ export default {
         }
         .details {
           margin-left: 8px;
-          h3 {
+          h2 {
             font-size: 18px;
+            font-weight: 700;
             color: #333333;
           }
           p {

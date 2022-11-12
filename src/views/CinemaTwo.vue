@@ -1,30 +1,40 @@
 <!-- 主页影院 -->
 <template>
   <div class="main">
+    <!-- 顶部选择栏组件 -->
     <MySelect
       :cityip="cityip"
+      :districtid="districtid"
       :halltype="halltype"
       :brandid="brandid"
       :serviceid="serviceid"
+      @becomedid="becomedid"
+      @becomehid="becomehid"
+      @becomeeid="becomeeid"
+      @becomebid="becomebid"
     >
     </MySelect>
+
+    <!-- 影院主体内容 -->
     <div :v-if="cinemaList">
       <div class="cinema" v-for="item in cinemaList" :key="item.cinemaId">
-        <h3>
-          <h3>{{ item.title }}</h3>
+        <h3 class="info">
+          <h3 class="title">{{ item.title }}</h3>
           <span>{{ item.price.n }}</span>
-          <div>{{ item.price.q }}</div>
+          <div>&nbsp;{{ item.price.q }}</div>
         </h3>
         <p>{{ item.location }}</p>
         <div class="tag">
           <div v-if="item.services[0]">改签</div>
           <div class="bor" v-if="item.services[1]">折扣卡</div>
           <div v-if="item.services[2]">杜比全景声厅</div>
-          <div v-if="item.services[3]">LUXE</div>
+          <div v-if="item.services[3]">LUXE巨幕厅</div>
         </div>
 
         <div class="tag2" v-if="item.discount[0]">
           <img src="@/assets/img/card.png" alt="" />
+          <!-- <img :src="item.discount[0].card" alt="" /> -->
+          <div>{{ item.discount[0].text }}</div>
         </div>
       </div>
     </div>
@@ -34,12 +44,13 @@
   </div>
 </template>
   
-  <script>
+<script>
 import { getmoreCinemas } from "@/api/cinema.js";
 import MySelect from "@/components/MySelect.vue";
 import TabBar from "@/components/TabBar.vue";
 
 export default {
+  props: ["cityip"],
   components: {
     MySelect,
     TabBar,
@@ -47,17 +58,16 @@ export default {
   data() {
     return {
       cinemaList: null,
-      districid: null, //行政区id
+      districtid: null, //行政区id
       halltype: null, // 影厅类型
       brandid: null, //品牌
       serviceid: null, //影院服务
     };
   },
-  props: ["cityip"],
   methods: {
     // 改变行政区id
     becomedid(id) {
-      this.districid = id;
+      this.districtid = id;
       this.getCinemasFun();
     },
     // 改变影厅类型id
@@ -77,14 +87,14 @@ export default {
     },
     getCinemasFun() {
       getmoreCinemas({
-        cityid: this.cityip,
-        districid: this.districid,
+        cityId: this.cityip,
+        districtid: this.districtid,
         hallType: this.halltype,
         brandId: this.brandid,
         serviceId: this.serviceid,
       }).then((data) => {
         this.cinemaList = data;
-        console.log(this.cinemaList);
+        console.log("影院数据 => ", this.cinemaList);
       });
     },
   },
@@ -106,7 +116,7 @@ export default {
     margin-left: 14px;
     padding: 14px 14px 14px 0;
     border-bottom: 1px solid #f2f2f2;
-    h3 {
+    .info {
       display: flex;
       align-items: center;
       span {
@@ -117,7 +127,7 @@ export default {
         color: #f03d37;
         font-size: 14px;
       }
-      h3 {
+      .title {
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -139,18 +149,19 @@ export default {
       div {
         padding: 0 2px;
         font-size: 12px;
-        border: 1px solid #a8ccd5;
-        border-radius: 6px;
+        border: 1px solid #589daf;
+        border-radius: 2px;
         margin-right: 4px;
-        color: red;
+        color: #589daf;
       }
       .bor {
-        border-color: #ffca7b;
+        border-color: #f90;
+        color: #f90;
       }
     }
     .tag2 {
       display: flex;
-      color: red;
+      color: #999999;
       font-size: 12px;
       align-items: center;
       margin-top: 8px;

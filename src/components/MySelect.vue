@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- 下拉菜单 -->
-    <div class="opcity" @click="openLight"></div>
+    <div class="opcity" @click="openLight" v-show="light"></div>
     <!-- 筛选区域 -->
     <div class="bigbox">
       <div class="alltag">
@@ -25,10 +25,13 @@
         </div>
       </div>
 
-      <!-- 点击高亮遮罩层 -->
       <!-- 全城详细 -->
       <div class="t1" v-show="type == 1">
-        <van-tabs v-model="active">
+        <van-tabs
+          v-model="active"
+          title-active-color="#e54847"
+          line-width="180"
+        >
           <van-tab title="商圈">
             <van-tree-select
               :items="items"
@@ -60,7 +63,7 @@
           <van-cell
             v-for="(item, index) in list"
             :key="item.id"
-            :class="selectNum == index ? 'con' : ''"
+            :class="[selectNum == index ? 'con' : '']"
             @click="becomearea(index)"
           >
             <div>{{ item.name }}</div>
@@ -111,6 +114,7 @@ import "../assets/font/iconfont.js";
 import { getCinema } from "@/api/cinema";
 
 export default {
+  props: ["cityip", "districtid", "halltype", "brandid", "serviceid"],
   data() {
     return {
       light: false, // 遮罩层
@@ -128,7 +132,7 @@ export default {
       loading: false,
       finished: false,
       area: null,
-      featureWay: "",
+      featureWay: null,
 
       // 商圈items
       items: [
@@ -186,12 +190,14 @@ export default {
     },
     // 点击选项卡左右侧
     ck(index) {
-      this.$emit("becomedid", this.items[index].id);
-      this.light = true;
+      if (index == 0) {
+        this.$emit("becomedid", this.items[index].id);
+        this.light = true;
+      }
     },
     cj(index) {
       this.$emit("becomedid", index.id);
-      console.log("区域代码 => ",index.id);
+      console.log("区域代码 => ", index.id);
       this.light = false;
     },
     onLoad() {
@@ -215,11 +221,11 @@ export default {
     // 特色高亮
     activeCon(index) {
       this.contype = index;
-      this.$emit("becomeid", this.area[index].id);
+      this.$emit("becomeeid", this.area[index].id);
     },
     activeCon1(index) {
-      this.contype = index;
-      this.$emit("becomeid", this.featureWay[index].id);
+      this.contype1 = index;
+      this.$emit("becomehid", this.featureWay[index].id);
       this.light = false;
     },
     openLight() {
@@ -271,8 +277,8 @@ export default {
   },
   watch: {
     type: function (newnum, oldnum) {
-      console.log("新值 => ", newnum);
-      console.log("旧值 => ", oldnum);
+      // console.log("新值 => ", newnum);
+      // console.log("旧值 => ", oldnum);
       if (newnum != oldnum && newnum != 0) {
         this.light = true;
       }
@@ -293,7 +299,7 @@ export default {
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.3);
-  display: none;
+  // display: none;
 }
 .bigbox {
   position: absolute;
@@ -322,6 +328,7 @@ export default {
     .iconfont {
       font-size: 12px;
       display: inline-block;
+      transform: scale(0.8);
     }
   }
   .con {
@@ -353,17 +360,17 @@ export default {
         display: flex;
         flex-wrap: wrap;
         .con {
-          background: #f0f0f0 !important;
-          color: #e54847 !important;
-          border: 0.02rem solid #f03f37 !important;
+          background: #fcf0f0 !important;
+          color: #f03d37 !important;
+          border: 0.02rem solid #f03d37 !important;
         }
         .pat1 {
-          width: 75px;
+          width: 21.3%;
           height: 30px;
           text-align: center;
           line-height: 30px;
           font-size: 12px;
-          border-radius: 8px;
+          border-radius: 6px;
           margin-right: 12px;
           border: 1px solid #dddddd;
           margin-top: 10px;
@@ -371,7 +378,7 @@ export default {
           white-space: nowrap;
           text-overflow: ellipsis;
           color: #777777;
-          // padding: 3px 0;
+          padding: 3px 0;
         }
         .pat1:nth-child(4n + 4) {
           margin-right: 0;

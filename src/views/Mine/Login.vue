@@ -108,7 +108,7 @@ export default {
 };
 </script>
   
-<style lang="less">
+<style lang="less" scoped>
 .loginTop {
   background: #e54847;
   display: flex;

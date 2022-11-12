@@ -1,14 +1,16 @@
 <template>
   <div class="main">
-    <video
-      ishivideo="true"
-      autoplay="false"
-      isrotate="true"
-      autoHide="true"
-      controls="controls"
-    >
-      <source :src="this.$route.query.videoUrl" type="video/mp4" />
-    </video>
+    <div class="video">
+      <video
+        ishivideo="true"
+        autoplay="false"
+        isrotate="true"
+        autoHide="true"
+        controls="controls"
+      >
+        <source :src="this.$route.query.videoUrl" type="video/mp4" />
+      </video>
+    </div>
   </div>
 </template>
 
@@ -24,11 +26,19 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .main {
-  video {
+  .video {
     width: 100%;
-    height: 100%;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    align-items: center; /*垂直方向居中*/
+    justify-content: center; /*水平方向居中*/
+    video {
+      width: 100%;
+      height: 100%;
+    }
   }
 }
 </style>
