@@ -126,7 +126,7 @@ export default {
   methods: {
     // 改变行政区id
     becomedid(id) {
-      this.districtid = id;
+      this.districid = id;
       this.getCinemasFun();
     },
     // 改变影厅类型id
@@ -146,11 +146,13 @@ export default {
     },
     getCinemasFun() {
       getmoreCinemas({
-        cityId: this.cityip,
-        districtid: this.districtid,
-        hallType: this.halltype,
-        brandId: this.brandid,
-        serviceId: this.serviceid,
+        // 筛选条件值
+        // https://apis.netstart.cn/maoyan/#/?id=附近影院筛选条件
+        cityId: this.cityip, //	城市id
+        districtId: this.districid, // 行政区id
+        hallType: this.halltype, // 影厅类型
+        brandId: this.brandid, // 品牌
+        serviceId: this.serviceid, // 影院服务
       }).then((data) => {
         this.cinemaList = data;
         console.log("影院数据 => ", this.cinemaList);
