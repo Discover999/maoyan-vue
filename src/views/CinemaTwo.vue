@@ -155,7 +155,7 @@ export default {
         serviceId: this.serviceid, // 影院服务
       }).then((data) => {
         this.cinemaList = data;
-        console.log("影院数据 => ", this.cinemaList);
+        // console.log("影院数据 => ", this.cinemaList);
       });
     },
   },
