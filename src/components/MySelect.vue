@@ -6,13 +6,15 @@
     <div class="bigbox">
       <div class="alltag">
         <div :class="['city', type == 1 ? 'con' : '']" @click="typeOne(1)">
-          全城
+          <span v-if="!this.cname">全城</span>
+          {{ cname }}
           <span
             :class="['iconfont icon-xiajiantou', type == 1 ? 'toy' : '']"
           ></span>
         </div>
         <div :class="['brand', type == 2 ? 'con' : '']" @click="typeOne(2)">
-          品牌
+          <span v-if="!this.bname">品牌</span>
+          {{ bname }}
           <span
             :class="['iconfont icon-xiajiantou', type == 2 ? 'toy' : '']"
           ></span>
@@ -128,6 +130,8 @@ export default {
       activeIndex1: 0,
       active: 0,
       list: [],
+      cname: "",
+      bname: "",
       selectNum: 0,
       loading: false,
       finished: false,
@@ -185,6 +189,11 @@ export default {
     // 点击品牌
     becomearea(index) {
       this.$emit("becomebid", this.list[index].id);
+      // console.log("品牌 => ", this.list[index].name);
+      this.bname = this.list[index].name;
+      if (this.list[index].id == -1) {
+        this.bname = "";
+      }
       this.selectNum = index;
       this.light = false;
     },
@@ -192,12 +201,15 @@ export default {
     ck(index) {
       if (index == 0) {
         this.$emit("becomedid", this.items[index].id);
+        this.cname = "";
         this.light = true;
       }
     },
     cj(index) {
       this.$emit("becomedid", index.id);
-      console.log("区域代码 => ", index.id);
+      // console.log("城市 => ", index.name);
+      this.cname = index.name;
+      // console.log("区域代码 => ", index.id);
       this.light = false;
     },
     onLoad() {
