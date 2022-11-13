@@ -32,7 +32,18 @@
           </div>
           <div class="right">
             <div class="text">
-              <h3>{{ item.nm }}</h3>
+              <h3>
+                <div class="mname">
+                  {{ item.nm }}
+                </div>
+                <!-- 2D/3D -->
+                <span v-if="item.version == 'v2d imax'">
+                  <img src="@/assets/img/v2dimax.png" alt="" />
+                </span>
+                <span v-if="item.version == 'v3d'">
+                  <img src="@/assets/img/v3d.png" alt="" style="width: 18px" />
+                </span>
+              </h3>
               <p class="wish">
                 <span>{{ item.wish }}</span>
                 人想看
@@ -227,9 +238,27 @@ export default {
             margin-top: 2px;
           }
           h3 {
-            font-size: 17px;
-            font-weight: bold;
-            color: #000;
+            display: flex;
+            .mname {
+              font-size: 17px;
+              font-weight: bold;
+              color: #000;
+              padding-right: 6px;
+              //  限制最长字符
+              // width: 160px;
+              // white-space: nowrap;
+              // overflow: hidden;
+              // text-overflow: clip;
+            }
+            span {
+              // 2D、3D标签
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              img {
+                width: 43px;
+              }
+            }
           }
           .wish {
             span {
