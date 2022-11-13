@@ -98,6 +98,17 @@
       </div>
     </div>
 
+    <div class="locatebanner">
+      <div class="local">
+        <div class="left">
+          <span><img src="@/assets/img/locate.png" alt="" /></span>
+          <p>广东东莞寮步</p>
+        </div>
+        <div class="right" @click="geo">
+          <span><img src="@/assets/img/refresh.png" alt="" /></span>
+        </div>
+      </div>
+    </div>
     <!-- 底部导航栏 -->
     <tab-bar></tab-bar>
   </div>
@@ -158,6 +169,23 @@ export default {
         // console.log("影院数据 => ", this.cinemaList);
       });
     },
+    // 获取地址
+    geo() {
+      navigator.geolocation.getCurrentPosition(
+        (res) => {
+          console.log("纬度 => ", res.coords.latitude);
+          console.log("经度 => ", res.coords.longitude);
+        },
+        (err) => {
+          console.log("error => ", err);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 5000,
+          maximumAge: 0,
+        }
+      );
+    },
   },
   created() {
     this.getCinemasFun();
@@ -183,6 +211,7 @@ export default {
       // 详细信息样式
       display: flex;
       align-items: center;
+      white-space: nowrap;
       span {
         // 价格
         color: #f03d37;
@@ -252,6 +281,46 @@ export default {
       img {
         width: 14px;
         height: 14px;
+      }
+    }
+  }
+  .locatebanner {
+    position: fixed;
+    height: 38px;
+    // background: #f1f1f1;
+    background: hsla(0, 0, 93.7%, 0.9);
+    bottom: 44px;
+    font-size: 14px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 90%;
+    border-radius: 6px 6px;
+    .local {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px 10px;
+      img {
+        height: 14px;
+        width: 14px;
+      }
+      .left {
+        display: flex;
+        width: 80%;
+        span {
+          display: flex;
+          justify-content: center; //水平
+          align-items: center; //垂直
+        }
+        p {
+          font-size: 13px;
+          color: #333;
+          margin: 0 6px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
       }
     }
   }
