@@ -72,7 +72,7 @@ export default {
     getVideosFun() {
       getVideos3().then((data) => {
         this.VideoList = data.data.feeds;
-        console.log("视频接口3数据 ==>", this.VideoList);
+        // console.log("视频接口3数据 ==>", this.VideoList);
       });
     },
   },
