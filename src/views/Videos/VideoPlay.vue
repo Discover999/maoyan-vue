@@ -1,5 +1,5 @@
-// 视频播放页面
 <template>
+  <!-- 视频播放页面 -->
   <div class="main">
     <div class="videopage">
       <div class="vshow" v-if="VideoInfo">
