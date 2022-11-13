@@ -13,7 +13,7 @@
         </div>
       </div>
     </van-index-bar>
-    <van-index-bar>
+    <van-index-bar v-if="alist">
       <van-index-anchor index="A" />
       <van-cell
         :title="item.nm"

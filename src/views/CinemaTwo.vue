@@ -102,7 +102,8 @@
       <div class="local">
         <div class="left">
           <span><img src="@/assets/img/locate.png" alt="" /></span>
-          <p>广东东莞寮步</p>
+          <p v-if="!this.local">正在获取定位...</p>
+          <p v-if="this.local">{{ local }}</p>
         </div>
         <div class="right" @click="geo">
           <span><img src="@/assets/img/refresh.png" alt="" /></span>
@@ -116,6 +117,7 @@
   
 <script>
 import { getmoreCinemas } from "@/api/cinema.js";
+import { getPosition } from "@/api/city";
 import MySelect from "@/components/MySelect.vue";
 import TabBar from "@/components/TabBar.vue";
 
@@ -129,9 +131,13 @@ export default {
     return {
       cinemaList: null,
       districtid: null, //行政区id
-      halltype: null, // 影厅类型
+      halltype: null, //影厅类型
       brandid: null, //品牌
       serviceid: null, //影院服务
+      lat: null, //地理定位纬度
+      lng: null, //地理定位经度
+      position: null, //位置
+      local: "", //地址
     };
   },
   methods: {
@@ -164,6 +170,8 @@ export default {
         hallType: this.halltype, // 影厅类型
         brandId: this.brandid, // 品牌
         serviceId: this.serviceid, // 影院服务
+        lat: this.lat,
+        lng: this.lng,
       }).then((data) => {
         this.cinemaList = data;
         // console.log("影院数据 => ", this.cinemaList);
@@ -173,11 +181,30 @@ export default {
     geo() {
       navigator.geolocation.getCurrentPosition(
         (res) => {
-          console.log("纬度 => ", res.coords.latitude);
-          console.log("经度 => ", res.coords.longitude);
+          // console.log("纬度 => ", res.coords.latitude);
+          // console.log("经度 => ", res.coords.longitude);
+          this.lat = res.coords.latitude.toString().substr(0, 6);
+          this.lng = res.coords.longitude.toString().substr(0, 7);
+          console.log("纬度 => ", this.lat);
+          console.log("经度 => ", this.lng);
+
+          // 从接口拿回地理位置数据
+          getPosition({
+            lat: this.lat, //纬度
+            lng: this.lng, //经度
+          }).then((data) => {
+            this.position = data.data;
+            // console.log("地理信息 => ", this.position);
+            // 获得地址
+            this.local =
+              this.position.city +
+              this.position.district +
+              this.position.detail;
+            console.log("当前地址 => ", this.local);
+          });
         },
         (err) => {
-          console.log("error => ", err);
+          console.log("定位失败 => ", err.message);
         },
         {
           enableHighAccuracy: true,
@@ -189,6 +216,7 @@ export default {
   },
   created() {
     this.getCinemasFun();
+    this.geo();
   },
   watch: {
     cityid: function () {
