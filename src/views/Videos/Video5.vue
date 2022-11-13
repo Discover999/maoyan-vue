@@ -4,11 +4,11 @@
     <div class="videostream">
       <div
         class="videolist"
-        v-for="item in VideoList"
+        v-for="(item, index) in VideoList"
         :key="item.id"
         :style="{ 'background-image': 'url(' + item.images[0].url + ')' }"
       >
-        <div @click="toplay(item.id)">
+        <div @click="toplay(item.id, index)">
           <p>{{ item.title }}</p>
           <!-- 播放按钮 -->
           <img class="play-btn" src="@/assets/img/video-btn-play.png" alt="" />
@@ -55,6 +55,7 @@ export default {
       VideoList: null,
       id: "", // 视频id
       page: "", // 来源页
+      index: "",
     };
   },
   components: {
@@ -62,10 +63,10 @@ export default {
   },
   methods: {
     // 跳转视频播放页
-    toplay(id) {
+    toplay(id, index) {
       this.$router.push({
         name: "play",
-        query: { page: "5", vid: id },
+        query: { page: "5", index: index, vid: id },
       });
     },
     getVideosFun() {

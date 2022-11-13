@@ -67,7 +67,7 @@ export default {
         getVideos1().then((data) => {
           this.VideoInfo = data.data.feeds[this.index];
           // console.log("索引位置 ==>", this.index);
-          console.log("接口1返回数据 ==>", this.VideoInfo);
+          // console.log("接口1返回数据 ==>", this.VideoInfo);
         });
       } else if (this.page == 2) {
         getVideos2().then((data) => {
@@ -76,17 +76,17 @@ export default {
         });
       } else if (this.page == 3) {
         getVideos3().then((data) => {
-          this.VideoInfo = data.data.feeds;
+          this.VideoInfo = data.data.feeds[this.index];
           // console.log("接口3返回数据 ==>", this.VideoInfo);
         });
       } else if (this.page == 4) {
         getVideos4().then((data) => {
-          this.VideoInfo = data.data.feeds;
+          this.VideoInfo = data.data.feeds[this.index];
           // console.log("接口4返回数据 ==>", this.VideoInfo);
         });
       } else if (this.page == 5) {
         getVideos5().then((data) => {
-          this.VideoInfo = data.data.feeds;
+          this.VideoInfo = data.data.feeds[this.index];
           // console.log("接口5返回数据 ==>", this.VideoInfo);
         });
       } else {
