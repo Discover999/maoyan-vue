@@ -19,7 +19,7 @@
         @click="
           $router.push({
             name: 'VideoPlay',
-            query: { videoUrl: item.video.url },
+            query: { id: item.video.id, url: item.video.url },
           })
         "
       >

@@ -15,7 +15,7 @@
             playsinline="true"
             webkit-playsinline="true"
           />
-          <div class="topImg" v-if="show" @click="play">
+          <div class="topImg" v-show="show" @click="play">
             <img alt="loading" :src="VideoInfo.video.imgUrl" />
             <div class="playbtn">
               <img src="@/assets/img/play-video.png" alt="" />
@@ -30,7 +30,7 @@
             <img
               v-if="VideoInfo.user.identification"
               class="icon"
-              src="//p0.meituan.net/moviemachine/5aaa710d72c78d6553be83f43bc9e4f3946.png"
+              src="@/assets/img/user-star.png"
               alt=""
             />
           </div>
@@ -103,8 +103,8 @@ export default {
     this.id = this.$route.query.vid;
     this.page = this.$route.query.page;
     this.index = this.$route.query.index;
-    console.log("数据来源 => ", this.$route.query.page);
-    console.log("获取到vid => ", this.$route.query.vid);
+    // console.log("数据来源 => ", this.$route.query.page);
+    // console.log("获取到vid => ", this.$route.query.vid);
     this.getVideoInfoFun();
   },
 };
@@ -125,7 +125,7 @@ export default {
           // 视频顶层遮罩
           display: flex;
           align-items: center;
-          z-index: 100;
+          z-index: 1;
           position: absolute;
           top: 0px;
           left: 0px;
@@ -136,7 +136,7 @@ export default {
           .playbtn {
             display: flex;
             align-items: center;
-            z-index: 100;
+            z-index: 2;
             position: absolute;
             top: 45%;
             left: 45%;
@@ -154,6 +154,7 @@ export default {
         position: relative;
         flex-direction: column;
         padding: 14px 16px;
+        z-index: 3;
         .title {
           // 标题样式
           color: #333;
