@@ -54,11 +54,20 @@ export default {
     // 注销方法
     // 清空 localStorage 存储实现
     clear_data() {
-      Toast({ message: "注销成功", position: "bottom" });
-      window.localStorage.removeItem("userId");
-      setTimeout(() => {
-        window.location.reload(); // 刷新页面
-      }, 1500); // 延迟1.5s刷新
+      Dialog.confirm({
+        message: "确认要注销吗?",
+      })
+        .then(() => {
+          // on confirm
+          Toast({ message: "注销成功", position: "bottom" });
+          window.localStorage.removeItem("userId");
+          setTimeout(() => {
+            window.location.reload(); // 刷新页面
+          }, 1500); // 延迟1.5s刷新
+        })
+        .catch(() => {
+          // on cancel
+        });
     },
     about() {
       // 关于弹窗
