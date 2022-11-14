@@ -59,7 +59,7 @@
       <!-- 搜索 -->
       <span
         class="search iconfont icon-fangdajing"
-        @click="$router.push('/search')"
+        @click="gosearch"
       ></span>
     </div>
 
@@ -106,6 +106,10 @@ export default {
     // 城市列表
     gocity() {
       this.$router.push("/position");
+    },
+    // 搜索页
+    gosearch() {
+      this.$router.push("/search");
     },
   },
 };
