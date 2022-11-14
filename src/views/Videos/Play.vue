@@ -4,7 +4,16 @@
       <div class="myvideoTop" @click="back">&lt;</div>
     </div>
     <div class="videoimg">
-      <video :src="this.vurl" ref="svideo"></video>
+      <video
+        ref="svideo"
+        preload="auto"
+        :src="this.vurl"
+        loop="loop"
+        controls=""
+        x5-playsinline="true"
+        playsinline="true"
+        webkit-playsinline="true"
+      />
     </div>
     <div class="bofang" v-show="play" @click="playornot">
       <img src="@/assets/img/video-btn-play.png" alt="" />
