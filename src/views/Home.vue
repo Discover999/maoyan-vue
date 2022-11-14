@@ -57,7 +57,10 @@
         <span :style="{ left: 56 * moveIndex + 5 + 'px' }"></span>
       </div>
       <!-- 搜索 -->
-      <span class="search iconfont icon-fangdajing"></span>
+      <span
+        class="search iconfont icon-fangdajing"
+        @click="$router.push('/search')"
+      ></span>
     </div>
 
     <!-- 路由显示 -->

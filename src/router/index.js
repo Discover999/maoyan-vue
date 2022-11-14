@@ -7,6 +7,7 @@ import Video from '../views/Videos/Video.vue'
 import ShortVideo from '../views/Videos/ShortVideo.vue'
 import VideoPlay from '../views/Videos/Play.vue'
 import MyPosition from '../views/Home/MyPosition.vue'
+import Search from '../views/Home/Search.vue'
 import MyMine from '../views/Mine/MyMine.vue'
 import Login from '../views/Mine/Login.vue'
 
@@ -71,6 +72,12 @@ const routes = [
     path: '/position',
     name: "position",
     component: MyPosition,
+  },
+  {
+    // 主页搜素
+    path: '/search',
+    name: "search",
+    component: Search,
   },
   {
     // 视频页面
