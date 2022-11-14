@@ -204,6 +204,7 @@ export default {
           });
         },
         (err) => {
+          this.local = "定位失败，请稍后重试";
           console.log("定位失败 => ", err.message);
         },
         {
