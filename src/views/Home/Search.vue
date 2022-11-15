@@ -12,7 +12,7 @@
     <div class="searchBox">
       <div class="searchCon">
         <input
-          v-model.lazy="vuell"
+          v-model.lazy="key"
           type="text"
           class="input"
           placeholder="搜电影、搜影院"
@@ -37,7 +37,10 @@
             <div class="right">
               <div class="title">
                 <h2 class="span1">{{ item.name }}</h2>
-                <span class="span2">{{ item.score }}</span>
+                <span class="span2" v-show="item.score"
+                  >{{ item.score }}
+                  <p>分</p></span
+                >
               </div>
               <p class="p1">{{ item.ename }}</p>
               <p class="p2">{{ item.catogary }}</p>
@@ -58,26 +61,30 @@ export default {
   props: ["cityip"],
   data() {
     return {
-      vuell: null,
+      key: null,
       listdata: null,
     };
   },
   methods: {
     searchMovieFun() {
       searchMovie({
-        keyword: this.vuell,
+        keyword: this.key,
         ci: this.cityip,
         limit: 10,
       }).then((data) => {
-        console.log("搜索返回数据 => ", data);
+        // console.log("搜索返回数据 => ", data);
         this.listdata = data;
       });
     },
   },
   watch: {
-    vuell() {
-      console.log("搜索框内容改变");
-      this.searchMovieFun();
+    key() {
+      // console.log("搜索框内容改变 => ", this.key);
+      if (this.key != "") {
+        this.searchMovieFun();
+      } else {
+        this.listdata = null;
+      }
     },
   },
 };
@@ -86,6 +93,8 @@ export default {
 
 <style lang="less" scoped>
 .main {
+  height: 100vh;
+  background-color: #f5f5f5;
   .searchTop {
     // 头部横幅
     background: #e54847;
@@ -102,33 +111,47 @@ export default {
       .toback {
         // 返回按钮
         position: absolute;
+        font-size: 26px;
+        font-family: "宋体";
+        font-weight: bold;
+        left: 2%;
         top: 0;
-        left: 5%;
-        font-size: 12px;
-        margin-top: 6px;
       }
     }
   }
   .searchBox {
+    display: flex;
     height: 48px;
     padding: 0px 12px;
     background-color: #f5f5f5;
+    border-bottom: 1px solid #e5e5e5;
     .searchCon {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-grow: 1;
       .input {
+        // 输入框样式
         flex: 1;
         outline: none;
-        height: 30px;
+        height: 28px;
+        font-size: 13px;
+        padding-left: 28px;
+        background: url("@/assets/img/search.png") no-repeat 6px 6px;
+        background-size: 5%;
+        border: 1px solid #ebebeb;
+        background-color: #fff;
+        border-radius: 5px;
       }
       .cancel {
-        font-size: 12px;
-        color: #e54847;
+        padding-left: 10px;
+        font-size: 16px;
+        color: #f03d37;
       }
     }
   }
   .content {
+    background-color: #fff;
     // 列表样式
     .list {
       ul {
@@ -136,7 +159,7 @@ export default {
           display: flex;
           align-items: center;
           border-bottom: 1px solid #e6e6e6;
-          padding: 12px;
+          padding: 12px 15px;
           .image {
             // 海报图
             width: 60px;
@@ -160,6 +183,11 @@ export default {
                 // 评分
                 color: #fa0;
                 font-size: 16px;
+                display: flex;
+                p {
+                  color: #fa0;
+                  font-size: 12px;
+                }
               }
             }
             p {
