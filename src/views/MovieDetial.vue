@@ -1,25 +1,53 @@
 <template>
   <!-- 电影详情页 -->
-  <div class="main">
-    <loading v-if="isloading"></loading>
+  <div class="main" v-if="showpage">
+    <!-- <loading v-if="isloading"></loading> -->
 
     <div class="movie-page" v-if="!isloading">
-      <div class="detail-page">
+      <div
+        class="detail-page"
+        v-if="this.movieInfo"
+        :style="'background-color: ' + movieInfo.backgroundColor"
+      >
         <!-- 顶部导航字 -->
-        <div class="navbar">猫眼电影 &gt; 电影</div>
+        <div class="navbar">
+          <p @click="$router.push('/')">猫眼电影</p>
+          &nbsp;&gt;&nbsp;{{ movieInfo.nm }}
+        </div>
 
         <!-- 电影信息 -->
         <div class="movie-info-top">
           <div class="topleft">
-            <img src="@/assets/201.jpg" alt="" />
+            <img :src="movieInfo.img" alt="电影海报图" />
+            <img class="playico" src="@/assets/img/poster-play.png" alt="" />
           </div>
           <div class="topright">
             <div class="desc">
-              <h1>电影名</h1>
-              <p>123456</p>
-              <p>123456</p>
-              <p>wxfwxfwxfwxf</p>
-              <p>2022-09-09</p>
+              <h1>{{ movieInfo.nm }}</h1>
+              <p>{{ movieInfo.enm }}</p>
+              <p class="tag">
+                {{ movieInfo.cat }}
+                <img
+                  src="@/assets/img/movie-tag-2DIMAX.png"
+                  alt="movie-tag"
+                  v-show="movieInfo.ver.includes('IMAX 2D')"
+                />
+                <img
+                  src="@/assets/img/movie-tag-3D.png"
+                  alt="movie-tag"
+                  v-show="movieInfo.ver.includes('3D')"
+                />
+                <img
+                  src="@/assets/img/movie-tag-3DIMAX.png"
+                  alt="movie-tag"
+                  v-show="movieInfo.ver.includes('IMAX 3D')"
+                />
+              </p>
+
+              <p class="star">{{ movieInfo.star }}</p>
+              <p>
+                {{ movieInfo.onlineDate }}&nbsp;/&nbsp;{{ movieInfo.dur }}分钟
+              </p>
             </div>
             <div class="botton">
               <div class="want">
@@ -32,20 +60,20 @@
           </div>
         </div>
 
-        <!-- 评分 -->
+        <!-- 影片有评分 -->
         <div class="movie-score">
-          <div class="score-info">
+          <div class="score-info" v-if="movieInfo.sc">
             <div class="score-top">
-              <!-- 评分顶部 -->
+              <!-- 评分左侧 -->
               <div class="sleft">
                 <img src="@/assets/img/catlogo.png" alt="" />
                 <p>猫眼购票评分</p>
               </div>
-              <!-- 评分底部 -->
+              <!-- 评分右侧 -->
               <div class="sright">
-                <p>5138521 人想看</p>
+                <p>{{ movieInfo.wish | num }}&nbsp;人想看</p>
                 &nbsp;&nbsp;
-                <p>2654874 人看过</p>
+                <p>{{ movieInfo.watched | num }}&nbsp;人看过</p>
                 <img
                   class="right"
                   src="@/assets/img/arrow-right.png"
@@ -55,14 +83,16 @@
             </div>
             <!-- 评分主体 -->
             <div class="score-middle">
+              <!-- 有评分 -->
               <div class="left-section">
                 <div class="left">
-                  <span>9.6</span>
-                  <div class="pepnum">393,861 人评</div>
+                  <span>{{ movieInfo.sc }}</span>
+                  <div class="pepnum">{{ movieInfo.snum | num }}人评</div>
                 </div>
-                <div class="right">
+                <div class="right" v-if="mrate">
                   <!-- 评分星级分布 -->
                   <div class="stars-bar">
+                    <!-- SCORE_LEVEL_9_10 -->
                     <div class="stars">
                       <img src="@/assets/img/white-star.png" alt="" />
                       <img src="@/assets/img/white-star.png" alt="" />
@@ -71,10 +101,14 @@
                       <img src="@/assets/img/white-star.png" alt="" />
                     </div>
                     <div class="bar">
-                      <div class="percent" style="width: 91.2%"></div>
+                      <div
+                        class="percent"
+                        :style="'width:' + mrate[0].percent * 100 + '%'"
+                      ></div>
                     </div>
                   </div>
                   <div class="stars-bar">
+                    <!-- SCORE_LEVEL_7_8 -->
                     <div class="stars">
                       <img src="@/assets/img/grey-star.png" alt="" />
                       <img src="@/assets/img/white-star.png" alt="" />
@@ -83,10 +117,14 @@
                       <img src="@/assets/img/white-star.png" alt="" />
                     </div>
                     <div class="bar">
-                      <div class="percent" style="width: 10.2%"></div>
+                      <div
+                        class="percent"
+                        :style="'width:' + mrate[1].percent * 100 + '%'"
+                      ></div>
                     </div>
                   </div>
                   <div class="stars-bar">
+                    <!-- SCORE_LEVEL_5_6 -->
                     <div class="stars">
                       <img src="@/assets/img/grey-star.png" alt="" />
                       <img src="@/assets/img/grey-star.png" alt="" />
@@ -95,10 +133,14 @@
                       <img src="@/assets/img/white-star.png" alt="" />
                     </div>
                     <div class="bar">
-                      <div class="percent" style="width: 6.2%"></div>
+                      <div
+                        class="percent"
+                        :style="'width:' + mrate[2].percent * 100 + '%'"
+                      ></div>
                     </div>
                   </div>
                   <div class="stars-bar">
+                    <!-- SCORE_LEVEL_3_4 -->
                     <div class="stars">
                       <img src="@/assets/img/grey-star.png" alt="" />
                       <img src="@/assets/img/grey-star.png" alt="" />
@@ -107,10 +149,14 @@
                       <img src="@/assets/img/white-star.png" alt="" />
                     </div>
                     <div class="bar">
-                      <div class="percent" style="width: 1.2%"></div>
+                      <div
+                        class="percent"
+                        :style="'width:' + mrate[3].percent * 100 + '%'"
+                      ></div>
                     </div>
                   </div>
                   <div class="stars-bar">
+                    <!-- SCORE_LEVEL_1_2 -->
                     <div class="stars">
                       <img src="@/assets/img/grey-star.png" alt="" />
                       <img src="@/assets/img/grey-star.png" alt="" />
@@ -119,7 +165,10 @@
                       <img src="@/assets/img/white-star.png" alt="" />
                     </div>
                     <div class="bar">
-                      <div class="percent" style="width: 2%"></div>
+                      <div
+                        class="percent"
+                        :style="'width:' + mrate[4].percent * 100 + '%'"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -136,6 +185,31 @@
                   </div>
                 </div>
               </div> -->
+            </div>
+          </div>
+
+          <!-- 影片无评分 -->
+          <div class="score-info" v-if="!movieInfo.sc">
+            <div class="score-top">
+              <!-- 评分左侧 -->
+              <div class="sleft">
+                <img src="@/assets/img/catlogo.png" alt="" />
+                <p>猫眼想看</p>
+              </div>
+              <!-- 评分右侧 -->
+              <div class="sright"></div>
+            </div>
+            <!-- 评分主体 -->
+            <div class="score-middle">
+              <!-- 无评分显示想看人数 -->
+              <div class="left-section" v-if="!movieInfo.sc">
+                <div class="left">
+                  <div class="wish">
+                    <span>{{ movieInfo.wish | num }}</span>
+                    <p>人想看</p>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -158,16 +232,7 @@
             /></span>
           </div>
           <div :class="[isOpen ? 'intro' : 'intro m']">
-            <p>
-              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
-              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
-              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
-              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
-              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
-              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
-              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
-              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
-            </p>
+            <p>{{ movieInfo.dra }}</p>
           </div>
         </div>
 
@@ -188,21 +253,13 @@
           <div class="actor-list">
             <ul>
               <!-- 这里循环 -->
-              <li>
+              <li v-for="item in actorlist" :key="item.id">
                 <!-- 这里循环 -->
                 <div class="act-img">
-                  <img src="@/assets/102.jpg" alt="" />
+                  <img :src="item.avatar" alt="" />
                 </div>
-                <p>演员名</p>
-                <span>角色？？</span>
-              </li>
-              <li>
-                <!-- 这里循环 -->
-                <div class="act-img">
-                  <img src="@/assets/102.jpg" alt="" />
-                </div>
-                <p>演员名</p>
-                <span>角色？？</span>
+                <p>{{ item.cnm }}</p>
+                <span>{{ item.desc }}</span>
               </li>
             </ul>
           </div>
@@ -220,12 +277,16 @@
                 alt="右箭头"
             /></span>
           </div>
-          <div class="videos-list">
+          <div class="videos-list" v-if="videos">
             <ul>
-              <li>
+              <li v-for="(item, index) in videos" :key="index">
                 <div class="videoimg">
-                  <img src="@/assets/poster.jpg" class="poster" />
-                  <img src="@/assets/img/play-video.png" alt="" class="btn" />
+                  <img class="poster" :src="item.video.imgUrl" />
+                  <img
+                    src="@/assets/img/play-video.png"
+                    alt="play-btn"
+                    class="btn"
+                  />
                 </div>
               </li>
             </ul>
@@ -233,11 +294,11 @@
         </div>
 
         <!-- 剧照 -->
-        <div class="photos">
+        <div class="photos" v-if="pictures">
           <div class="title">
             <p>剧照</p>
             <span
-              >全部
+              >全部{{ movieInfo.pn }}张
               <img
                 class="right"
                 src="@/assets/img/arrow-right.png"
@@ -246,11 +307,8 @@
           </div>
           <div class="photos-list">
             <ul>
-              <li>
-                <img src="@/assets/poster.jpg" />
-              </li>
-              <li>
-                <img src="@/assets/poster.jpg" />
+              <li v-for="(item, index) in pictures" :key="index">
+                <img :src="item" />
               </li>
             </ul>
           </div>
@@ -258,7 +316,7 @@
       </div>
 
       <!-- 票房 -->
-      <div class="box-office">
+      <div class="box-office" v-if="this.mbox.sumBox">
         <div class="cont">
           <div class="title">
             <p>票房</p>
@@ -272,15 +330,15 @@
           </div>
           <div class="data-box">
             <div class="item">
-              <div class="value">2</div>
+              <div class="value">{{ mbox.lastDayRank }}</div>
               <div class="name">昨日排名</div>
             </div>
             <div class="item">
-              <div class="value">43,332</div>
+              <div class="value">{{ mbox.firstWeekBox | num }}</div>
               <div class="name">首周票房(万)</div>
             </div>
             <div class="item">
-              <div class="value">155,011</div>
+              <div class="value">{{ mbox.sumBox | num }}</div>
               <div class="name">累计票房(万)</div>
             </div>
           </div>
@@ -288,7 +346,7 @@
       </div>
 
       <!-- 相关快讯 -->
-      <div class="informations">
+      <div class="informations" v-if="newslist">
         <div class="cont">
           <div class="title">
             <p>相关快讯</p>
@@ -302,24 +360,27 @@
           </div>
           <div class="information-box">
             <div class="info">
-              <div class="content">
+              <div
+                class="content"
+                v-for="(item, index) in newslist"
+                :key="index"
+              >
                 <div class="top">
-                  <span>《万里归途》金鸡影展举行特别放映感谢观众</span>
-                  <img src="@/assets/poster.jpg" alt="" />
+                  <span>{{ item.title }}</span>
+                  <img :src="item.previewImages[0].url" alt="" />
                 </div>
                 <div class="bottom">
-                  <div class="left">用户</div>
-                  <div class="right">点赞</div>
-                </div>
-              </div>
-              <div class="content">
-                <div class="top">
-                  <span>《万里归途》金鸡影展举行特别放映感谢观众</span>
-                  <img src="@/assets/poster.jpg" alt="" />
-                </div>
-                <div class="bottom">
-                  <div class="left">用户</div>
-                  <div class="right">点赞</div>
+                  <div class="left">{{ item.source }}</div>
+                  <div class="right">
+                    <img src="@/assets/img/read-num.png" alt="观看次数" />
+                    <p>{{ item.viewCount }}</p>
+                    <img
+                      class="comment"
+                      src="@/assets/img/replying-comments.png"
+                      alt="评论数"
+                    />
+                    <p>{{ item.commentCount }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -354,11 +415,14 @@ import Loading from "@/components/Loding.vue";
 export default {
   data() {
     return {
+      showpage: false,
       movieId: null, // 电影ID值
       isloading: true, //页面加载提示
       isOpen: false, //简介文字展开
       isShow: false, //简介文字收回
-      movieDetail: null, //电影数据
+      movieDetail: null,
+      mrate: null, //评分进度条数据
+      movieInfo: null, //电影数据
       actorlist: null, //演员数据
       mbox: null, //票房数据
       newslist: null, //相关资讯
@@ -368,12 +432,25 @@ export default {
   },
   methods: {
     getMovieDetailFun() {
-      getMovieDetail().then((data) => {
+      getMovieDetail({
+        movieId: this.movieId, //查询电影详情所携带id参数
+      }).then((data) => {
+        if (data != null) {
+          this.showpage = true;
+        }
+        // 解析接口数据
         this.movieDetail = data;
-        // console.log(this.movieDetail.movieList);
+        this.mbox = data.mbox.mbox; //票房数据
+        this.actorlist = data.celebrities; // 演员列
+        this.movieInfo = data.movie; //电影信息
+        this.mrate = data.distribution; //评分等级数据
+        this.pictures = data.movie.photos; //剧照
+        this.videos = data.feedVideos.feeds; //视频
+        this.newslist = data.newsList.newsList; //相关快讯
       });
     },
     open() {
+      // 展开文字
       this.isOpen = true;
     },
     putaway() {
@@ -381,10 +458,36 @@ export default {
     },
   },
   created() {
-    // this.getMovieDetailFun();
+    this.movieId = this.$route.query.id; //获取传来的id值
+    // console.log("movieId => ", this.movieId);
+    if (this.movieId) {
+      this.getMovieDetailFun();
+    }
+    if (!this.movieDetail) {
+      // 取消加载层
+      this.isloading = false;
+    }
   },
   mounted() {},
   components: { Loading },
+
+  // 实现整数三位一分隔
+  filters: {
+    num: (val) => {
+      val = "" + val; // 转换成字符串
+      let int = val;
+      int = int.split("").reverse().join(""); // 翻转整数
+      let temp = ""; // 临时变量
+      for (let i = 0; i < int.length; i++) {
+        temp += int[i];
+        if ((i + 1) % 3 === 0 && i !== int.length - 1) {
+          temp += ","; // 每隔三个数字拼接一个逗号
+        }
+      }
+      temp = temp.split("").reverse().join(""); // 加完逗号之后翻转
+      return temp; // 返回
+    },
+  },
 };
 </script>
   
@@ -394,8 +497,9 @@ export default {
     background-color: #f4f4f4;
     .detail-page {
       padding: 21px 16px;
-      background-color: #664d29;
+      // background-color: #664d29;
       .navbar {
+        display: flex;
         color: #ccc;
         font-size: 14px;
         margin-bottom: 15px;
@@ -403,8 +507,22 @@ export default {
       .movie-info-top {
         display: flex;
         .topleft {
+          float: left;
+          position: relative;
+          flex-shrink: 0;
+          height: 138px;
+          width: 100px;
           img {
+            height: 138px;
             width: 100px;
+            object-fit: cover; //对图片进行剪切并保留原始比例
+          }
+          .playico {
+            height: 30px;
+            width: 30px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
           }
         }
         .topright {
@@ -418,8 +536,25 @@ export default {
             }
             p {
               padding: 1px 0;
-              font-size: 13px;
+              font-size: 12px;
               color: #ccc;
+            }
+            .tag {
+              display: flex;
+              justify-content: flex-start;
+              align-items: center;
+              img {
+                // 电影标签【2D/3D】
+                height: 14px;
+                border-radius: 2px;
+                margin-left: 4px;
+              }
+            }
+            .star {
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              overflow: hidden;
+              width: 230px;
             }
           }
           .botton {
@@ -439,7 +574,8 @@ export default {
               display: flex;
               // flex: 1;
               width: 48%;
-              background-color: #9b8b74;
+              // background-color: #9b8b74;
+              background: hsla(0, 0%, 100%, 0.35);
               justify-content: center;
               align-items: center;
               border-radius: 4px;
@@ -448,7 +584,8 @@ export default {
               display: flex;
               // flex: 1;
               width: 48%;
-              background-color: #9b8b74;
+              // background-color: #9b8b74;
+              background: hsla(0, 0%, 100%, 0.35);
               justify-content: center;
               align-items: center;
               border-radius: 4px;
@@ -459,7 +596,8 @@ export default {
       .movie-score {
         // 电影评分横幅条
         margin-top: 15px;
-        background-color: #543f22;
+        // background-color: #543f22;
+        background-color: rgba(0, 0, 0, 0.18);
         border-radius: 6px;
         .score-info {
           padding: 9px 10px 10px 10px;
@@ -508,9 +646,24 @@ export default {
                 justify-content: center;
                 align-items: flex-end;
                 span {
+                  // 评分
                   color: #ffb400;
-                  font-size: 24px;
+                  font-size: 26px;
                   font-weight: bold;
+                }
+                .wish {
+                  padding: 16px;
+                  display: flex;
+                  p {
+                    // [人想看]
+                    // align-self: flex-end;
+                    align-self: center;
+                    margin-left: 6px;
+                    font-size: 12px;
+                    font-weight: bold;
+                    color: #fff;
+                    opacity: 0.8;
+                  }
                 }
                 .pepnum {
                   display: block;
@@ -545,8 +698,12 @@ export default {
                     background-color: hsla(0, 0%, 100%, 0.06);
                     border-radius: 1px;
                     .percent {
+                      // 进度样式
                       height: 4px;
-                      background-color: #8f816e;
+                      border-radius: 1px;
+                      // background-color: #8f816e;
+                      background: hsla(0, 0%, 100%, 0.3);
+                      transition: width 1.5s;
                     }
                   }
                 }
@@ -657,13 +814,14 @@ export default {
               margin-right: 8px;
               img {
                 width: 80px;
+                height: 110px;
+                object-fit: cover; //对图片进行剪切并保留原始比例
               }
               p {
                 text-align: center;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
-                width: 100%;
                 font-size: 12px;
               }
               span {
@@ -718,7 +876,9 @@ export default {
               .videoimg {
                 position: relative;
                 .poster {
+                  height: 93px;
                   width: 140px;
+                  object-fit: cover; //对图片进行剪切并保留原始比例
                   border-radius: 12px;
                   z-index: 1;
                 }
@@ -735,6 +895,9 @@ export default {
               }
             }
           }
+        }
+        .videos-list::-webkit-scrollbar {
+          display: none;
         }
       }
       .photos {
@@ -768,11 +931,17 @@ export default {
             li {
               display: inline-block;
               margin-right: 8px;
+              overflow: hidden;
               img {
                 width: 140px;
+                height: 90px;
+                object-fit: cover; //对图片进行剪切并保留原始比例
               }
             }
           }
+        }
+        .photos-list::-webkit-scrollbar {
+          display: none;
         }
       }
     }
@@ -892,7 +1061,9 @@ export default {
                 font-size: 16px;
                 img {
                   margin-left: 4px;
+                  width: 110px;
                   height: 78px;
+                  object-fit: cover; //对图片进行剪切并保留原始比例
                 }
               }
               .bottom {
@@ -901,6 +1072,19 @@ export default {
                 justify-content: space-between;
                 font-size: 12px;
                 color: #999;
+                .right {
+                  display: flex;
+                  justify-content: flex-end;
+                  margin: 0 4px;
+                  img {
+                    margin-right: 4px;
+                    width: 14px;
+                    height: 12px;
+                  }
+                  .comment {
+                    margin: 0 5px 0 40px;
+                  }
+                }
               }
             }
           }

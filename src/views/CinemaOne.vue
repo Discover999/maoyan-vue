@@ -33,7 +33,7 @@
         v-for="item in MoreMovieList.movieList"
         :key="item.id"
         @click="
-          $router.push({ name: 'MovieDetail', query: { id: item.movieId } })
+          $router.push({ name: 'MovieDetail', query: { id: item.id } })
         "
       >
         <!-- 项左图片 -->
