@@ -1,9 +1,12 @@
 <template>
+  <!-- 电影详情页 -->
   <div class="main">
-    <div class="movie-page">
+    <loading v-if="isloading"></loading>
+
+    <div class="movie-page" v-if="!isloading">
       <div class="detail-page">
         <!-- 顶部导航字 -->
-        <div class="navbar">猫眼电影 > 电影</div>
+        <div class="navbar">猫眼电影 &gt; 电影</div>
 
         <!-- 电影信息 -->
         <div class="movie-info-top">
@@ -41,7 +44,13 @@
               <!-- 评分底部 -->
               <div class="sright">
                 <p>5138521 人想看</p>
-                <p>2654874 人看过 ></p>
+                &nbsp;&nbsp;
+                <p>2654874 人看过</p>
+                <img
+                  class="right"
+                  src="@/assets/img/arrow-right.png"
+                  alt="右箭头"
+                />
               </div>
             </div>
             <!-- 评分主体 -->
@@ -135,10 +144,28 @@
         <div class="movie-introduction">
           <div class="title">
             <p>简介</p>
-            <span>展开</span>
+            <span @click="open" v-show="!isOpen"
+              >展开<img
+                class="down"
+                src="@/assets/img/arrow-right.png"
+                alt="向下箭头"
+            /></span>
+            <span @click="putaway" v-show="isOpen"
+              >收起<img
+                class="up"
+                src="@/assets/img/arrow-right.png"
+                alt="向上箭头"
+            /></span>
           </div>
-          <div class="intro">
+          <div :class="[isOpen ? 'intro' : 'intro m']">
             <p>
+              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
+              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
+              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
+              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
+              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
+              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
+              这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
               这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍这是影片介绍
             </p>
           </div>
@@ -148,7 +175,14 @@
         <div class="actors">
           <div class="title">
             <p>演职人员</p>
-            <span>全部</span>
+            <span
+              >全部
+              <img
+                class="right"
+                src="@/assets/img/arrow-right.png"
+                alt="右箭头"
+              />
+            </span>
           </div>
 
           <div class="actor-list">
@@ -178,15 +212,21 @@
         <div class="videos">
           <div class="title">
             <p>视频推荐</p>
-            <span>全部</span>
+            <span
+              >全部
+              <img
+                class="right"
+                src="@/assets/img/arrow-right.png"
+                alt="右箭头"
+            /></span>
           </div>
           <div class="videos-list">
             <ul>
               <li>
-                <img src="@/assets/poster.jpg" />
-              </li>
-              <li>
-                <img src="@/assets/poster.jpg" />
+                <div class="videoimg">
+                  <img src="@/assets/poster.jpg" class="poster" />
+                  <img src="@/assets/img/play-video.png" alt="" class="btn" />
+                </div>
               </li>
             </ul>
           </div>
@@ -196,7 +236,13 @@
         <div class="photos">
           <div class="title">
             <p>剧照</p>
-            <span>全部</span>
+            <span
+              >全部
+              <img
+                class="right"
+                src="@/assets/img/arrow-right.png"
+                alt="右箭头"
+            /></span>
           </div>
           <div class="photos-list">
             <ul>
@@ -216,7 +262,13 @@
         <div class="cont">
           <div class="title">
             <p>票房</p>
-            <span>票房详情 ></span>
+            <span
+              >票房详情
+              <img
+                class="right"
+                src="@/assets/img/arrow-right-black.png"
+                alt="右箭头"
+            /></span>
           </div>
           <div class="data-box">
             <div class="item">
@@ -235,12 +287,18 @@
         </div>
       </div>
 
-      <!-- 资讯 -->
+      <!-- 相关快讯 -->
       <div class="informations">
         <div class="cont">
           <div class="title">
             <p>相关快讯</p>
-            <span>全部 ></span>
+            <span
+              >全部
+              <img
+                class="right"
+                src="@/assets/img/arrow-right-black.png"
+                alt="右箭头"
+            /></span>
           </div>
           <div class="information-box">
             <div class="info">
@@ -276,17 +334,13 @@
           <a
             href="https://i.maoyan.com/terms/private?id=privacy_1629962927685"
             class="link"
-            data-event="http:__m.maoyan.com_terms_private?id=privacy_1629962927685"
             to="http://m.maoyan.com/terms/private?id=privacy_1629962927685"
             >《免责声明》</a
           >
           <span>I 违法和不良信息举报电话：400601890</span>
         </p>
         <div class="bottom-logo">
-          <img
-            alt=""
-            src="//obj.pipi.cn/festatic/asgard/resources/images/movie/bottom-logo.png"
-          />
+          <img alt="" src="@/assets/img/bottom-logo.png" />
         </div>
       </div>
     </div>
@@ -295,12 +349,21 @@
   
 <script>
 import { getMovieDetail } from "@/api/detail";
+import Loading from "@/components/Loding.vue";
 
 export default {
   data() {
     return {
-      movieDetail: null,
-      btnType: true,
+      movieId: null, // 电影ID值
+      isloading: true, //页面加载提示
+      isOpen: false, //简介文字展开
+      isShow: false, //简介文字收回
+      movieDetail: null, //电影数据
+      actorlist: null, //演员数据
+      mbox: null, //票房数据
+      newslist: null, //相关资讯
+      videos: null, //视频
+      pictures: null, //剧照
     };
   },
   methods: {
@@ -310,10 +373,18 @@ export default {
         // console.log(this.movieDetail.movieList);
       });
     },
+    open() {
+      this.isOpen = true;
+    },
+    putaway() {
+      this.isOpen = false;
+    },
   },
   created() {
     // this.getMovieDetailFun();
   },
+  mounted() {},
+  components: { Loading },
 };
 </script>
   
@@ -343,7 +414,7 @@ export default {
             color: #fff;
             h1 {
               font-weight: bold;
-              margin-bottom: 10px;
+              margin-bottom: 4px;
             }
             p {
               padding: 1px 0;
@@ -386,6 +457,7 @@ export default {
         }
       }
       .movie-score {
+        // 电影评分横幅条
         margin-top: 15px;
         background-color: #543f22;
         border-radius: 6px;
@@ -411,6 +483,12 @@ export default {
               display: flex;
               justify-content: center;
               align-items: center;
+              opacity: 0.6;
+              .right {
+                margin-left: 6px;
+                width: 5px;
+                height: 8px;
+              }
             }
           }
           .score-middle {
@@ -505,6 +583,7 @@ export default {
         }
       }
       .movie-introduction {
+        // 简介
         padding-top: 16px;
         color: #fff;
         .title {
@@ -512,13 +591,36 @@ export default {
           justify-content: space-between;
           font-size: 16px;
           span {
+            display: flex;
+            justify-content: space-between;
             color: #ccc;
             font-size: 12px;
+            align-items: center;
+            img {
+              margin-left: 6px;
+              height: 8px;
+              width: 5px;
+            }
+            .down {
+              -moz-transform: rotate(-90deg);
+              -webkit-transform: rotate(-90deg);
+              transform: rotate(90deg);
+            }
+            .up {
+              transform: rotate(-90deg);
+            }
           }
         }
         .intro {
           margin: 7px 0;
           font-size: 14px;
+          text-align: justify;
+        }
+        .m {
+          display: -webkit-box;
+          overflow: hidden;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
         }
       }
       .actors {
@@ -529,11 +631,20 @@ export default {
           display: flex;
           justify-content: space-between;
           span {
-            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
             color: #ccc;
+            font-size: 12px;
+            align-items: center;
+            .right {
+              margin-left: 6px;
+              width: 5px;
+              height: 8px;
+            }
           }
         }
         .actor-list {
+          // 演员列表
           margin-top: 12px;
           // padding-bottom: 20px;
           display: flex;
@@ -573,6 +684,7 @@ export default {
         }
       }
       .videos {
+        // 视频
         padding-top: 16px;
         color: #fff;
         .title {
@@ -580,11 +692,20 @@ export default {
           justify-content: space-between;
           font-size: 16px;
           span {
+            display: flex;
+            justify-content: space-between;
             color: #ccc;
             font-size: 12px;
+            align-items: center;
+            .right {
+              margin-left: 6px;
+              width: 5px;
+              height: 8px;
+            }
           }
         }
         .videos-list {
+          // 视频推荐列表
           margin-top: 12px;
           display: flex;
           overflow: hidden;
@@ -594,15 +715,30 @@ export default {
             li {
               display: inline-block;
               margin-right: 8px;
-              img {
-                width: 140px;
-                border-radius: 12px;
+              .videoimg {
+                position: relative;
+                .poster {
+                  width: 140px;
+                  border-radius: 12px;
+                  z-index: 1;
+                }
+                .btn {
+                  // 视频上方播放按钮
+                  position: absolute;
+                  height: 32px;
+                  width: 32px;
+                  top: 50%;
+                  left: 50%;
+                  transform: translate(-50%, -50%);
+                  z-index: 2;
+                }
               }
             }
           }
         }
       }
       .photos {
+        // 剧照
         padding-top: 16px;
         color: #fff;
         .title {
@@ -610,8 +746,16 @@ export default {
           justify-content: space-between;
           font-size: 16px;
           span {
+            display: flex;
+            justify-content: space-between;
             color: #ccc;
             font-size: 12px;
+            align-items: center;
+            .right {
+              margin-left: 6px;
+              width: 5px;
+              height: 8px;
+            }
           }
         }
         .photos-list {
@@ -633,6 +777,7 @@ export default {
       }
     }
     .box-office {
+      // 票房样式
       margin-top: 15px;
       background-color: #fff;
       height: 130px;
@@ -646,11 +791,20 @@ export default {
           justify-content: space-between;
           align-items: center;
           span {
-            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
             color: #999;
+            font-size: 12px;
+            align-items: center;
+            .right {
+              margin-left: 6px;
+              width: 5px;
+              height: 8px;
+            }
           }
         }
         .data-box {
+          // 票房数据
           background-color: #f8f8f8;
           border-radius: 6px;
           display: flex;
@@ -674,6 +828,7 @@ export default {
       }
     }
     .disclaimer {
+      // 影视行业信息样式
       margin-top: 40px;
       text-align: center;
       .content {
@@ -682,17 +837,17 @@ export default {
         font-size: 12px;
         line-height: 16px;
         color: #999;
-        a{
+        a {
           color: #4e759e;
         }
       }
       .bottom-logo {
+        // 最底部logo
         text-align: center;
         height: 48px;
         display: flex;
         justify-content: center;
         align-items: center;
-        margin-top: -0.09rem;
         margin-bottom: 0;
         img {
           display: inline-block;
@@ -701,11 +856,12 @@ export default {
       }
     }
     .informations {
+      // 相关快讯样式
       margin-top: 15px;
       .cont {
-        padding: 0 15px;
         background-color: #fff;
         .title {
+          padding: 0 15px;
           display: flex;
           justify-content: space-between;
           height: 48px;
@@ -713,15 +869,24 @@ export default {
           align-items: center;
           border-bottom: 1px solid #e8e8e8;
           span {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
             font-size: 12px;
-            color: #999;
+            align-items: center;
+            .right {
+              margin-left: 6px;
+              width: 5px;
+              height: 8px;
+            }
           }
         }
         .information-box {
           .info {
+            padding: 0 15px;
             .content {
               padding: 15px 0 12px 0;
-              border-top: 1px solid #e6e6e6;
+              border-bottom: 1px solid #e6e6e6;
               .top {
                 display: flex;
                 font-size: 16px;

@@ -13,6 +13,7 @@ import { TreeSelect } from 'vant';
 import { Icon } from 'vant';
 import { Dialog } from 'vant';
 import { List } from 'vant';
+import { Loading } from 'vant';
 
 // import 'vant/lib/index.css'
 
@@ -28,6 +29,7 @@ Vue.use(TreeSelect);
 Vue.use(Icon);
 Vue.use(Dialog);
 Vue.use(List);
+Vue.use(Loading);
 
 new Vue({
   router,
