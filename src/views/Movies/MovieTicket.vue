@@ -65,8 +65,10 @@
           <div class="days">
             <div
               class="day-chosen"
+              :class="index == active ? 'active' : ''"
               v-for="(item, index) in showday"
               :key="index"
+              @click="selectNav(index, item.date)"
             >
               <span>{{ item.date | date }}</span>
             </div>
@@ -194,11 +196,13 @@ export default {
   props: ["cityip"],
   data() {
     return {
+      active: 0, //激活导航栏
       movieId: null, //影片id
-      active: 2, //激活导航栏
-      showday: null, //影片上映日期
       MovieIntro: null, //影片简介信息
-
+      showday: null, //影片上映日期
+      cinemaList: null, //影院列表
+      // 以下为页面传值所需参数
+      date: null, //日期参数
       districtid: null, //行政区id
       halltype: null, //影厅类型
       brandid: null, //品牌
@@ -207,10 +211,24 @@ export default {
       lng: null, //地理定位经度
       position: null, //位置
       local: "", //地址
-      cinemaList: null,
     };
   },
   methods: {
+    getNowDate() {
+      // 获取当前时间(年月日)
+      var now = new Date();
+      var year = now.getFullYear(); //得到年份
+      var month = now.getMonth(); //得到月份
+      var day = now.getDate(); //得到天
+      if (day < 10) {
+        // 天小于10时补全为两位
+        day = "0" + day;
+      }
+      month = month + 1;
+      month = month.toString().padStart(2, "0");
+      this.date = `${year}-${month}-${day}`;
+      // console.log("当前时间 => ", this.date);
+    },
     getShowDayFun() {
       // 获取上映时间
       getShowDay({ movieId: this.movieId }).then((data) => {
@@ -225,6 +243,13 @@ export default {
         // console.log("影片信息 => ", this.MovieIntro);
       });
     },
+    selectNav(index, date) {
+      // 日期切换
+      this.active = index;
+      this.date = date;
+      this.getShowCinemasFun(); // 获取影院列表
+      // console.log("Date => ", date);
+    },
     getShowCinemasFun() {
       // 获取影片上映影院列表
       getShowCinemas({
@@ -234,7 +259,7 @@ export default {
         client: "iphone",
         channelId: 4,
         cityId: this.cityip,
-        showDate: "2022-11-17",
+        showDate: this.date,
         districtId: this.districid, // 行政区id
         hallType: this.halltype, // 影厅类型
         brandIds: this.brandid, // 品牌
@@ -243,25 +268,29 @@ export default {
         lng: this.lng, //经度
       }).then((data) => {
         this.cinemaList = data.data.cinemas;
-        console.log("影院列表 => ", this.cinemaList);
+        // console.log("影院列表 => ", this.cinemaList);
       });
     },
 
     // 改变行政区id
     becomedid(id) {
       this.districid = id;
+      this.getShowCinemasFun();
     },
     // 改变影厅类型id
     becomehid(id) {
       this.halltype = id;
+      this.getShowCinemasFun();
     },
     // 改变品牌id
     becomebid(id) {
       this.brandid = id;
+      this.getShowCinemasFun();
     },
     // 改变影院服务id
     becomeeid(id) {
       this.serviceid = id;
+      this.getShowCinemasFun();
     },
   },
   created() {
@@ -269,6 +298,7 @@ export default {
     // console.log("movieId => ", this.movieId);
     // console.log("城市 => ", this.cityip);
     if (this.movieId != null) {
+      this.getNowDate(); //获取当前年月日
       this.getShowDayFun(); //获取上映日
       this.getMovieIntroFun(); //获取基本信息
       this.getShowCinemasFun(); // 获取影院列表
@@ -276,6 +306,11 @@ export default {
   },
   components: {
     MySelect,
+  },
+  watch: {
+    cityid: function () {
+      this.getShowCinemasFun();
+    },
   },
   filters: {
     // 格式化日期
@@ -470,11 +505,13 @@ export default {
           font-size: 14px;
           text-align: center;
           color: #666;
-          // border-bottom: 2px solid #f03d37;
-          // color: #f03d37;
         }
-        // 去除底部滚动条
+        .active {
+          border-bottom: 6px solid #f03d37;
+          color: #f03d37;
+        }
       }
+      // 去除底部滚动条
       .days::-webkit-scrollbar {
         display: none;
       }
