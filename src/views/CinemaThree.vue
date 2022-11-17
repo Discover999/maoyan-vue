@@ -6,7 +6,12 @@
       <div class="title">近期最受期待</div>
       <!-- 横向列表 -->
       <div class="list">
-        <div class="movieList" v-for="item in expectlist" :key="item.id">
+        <div
+          class="movieList"
+          v-for="item in expectlist"
+          :key="item.id"
+          @click="goticket(item.id)"
+        >
           <div class="img">
             <img :src="item.img" alt />
             <span>{{ item.wish }}人想看</span>
@@ -51,7 +56,7 @@
               <p>主演:{{ item.star }}</p>
               <p>{{ item.showInfo }}</p>
             </div>
-            <div class="buy">预售</div>
+            <div class="buy" @click="goticket(item.id)">预售</div>
           </div>
         </div>
       </div>
@@ -85,6 +90,10 @@ export default {
       getReadyMovieList().then((data) => {
         this.readylist = data.coming;
       });
+    },
+    // 跳转购票页
+    goticket(id) {
+      this.$router.push({ name: "MovieTicket", query: { id: id } });
     },
   },
   created() {
