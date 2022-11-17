@@ -1,12 +1,11 @@
 <template>
   <!-- 电影详情页 -->
-  <div class="main" v-if="showpage">
+  <div class="main" v-if="this.movieInfo">
     <!-- <loading v-if="isloading"></loading> -->
 
     <div class="movie-page" v-if="!isloading">
       <div
         class="detail-page"
-        v-if="this.movieInfo"
         :style="'background-color: ' + movieInfo.backgroundColor"
       >
         <!-- 顶部导航字 -->
@@ -316,7 +315,7 @@
       </div>
 
       <!-- 票房 -->
-      <div class="box-office" v-if="this.mbox.sumBox">
+      <div class="box-office" v-if="mbox">
         <div class="cont">
           <div class="title">
             <p>票房</p>
@@ -405,6 +404,12 @@
         </div>
       </div>
     </div>
+    <!-- 购票 -->
+    <div class="buyTicket">
+      <div class="buybtn">
+        <div class="buy" @click="goticket(movieId)">特惠购票</div>
+      </div>
+    </div>
   </div>
 </template>
   
@@ -456,6 +461,10 @@ export default {
     putaway() {
       this.isOpen = false;
     },
+    // 跳转购票页
+    goticket(id) {
+      this.$router.push({ name: "MovieTicket", query: { id: id } });
+    },
   },
   created() {
     this.movieId = this.$route.query.id; //获取传来的id值
@@ -495,6 +504,7 @@ export default {
 .main {
   .movie-page {
     background-color: #f4f4f4;
+    padding-bottom: 64px;
     .detail-page {
       padding: 21px 16px;
       // background-color: #664d29;
@@ -1089,6 +1099,43 @@ export default {
             }
           }
         }
+      }
+    }
+  }
+  .buyTicket {
+    // 底部购票样式
+    background-color: #fff;
+    height: 62px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    width: 100%;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    overflow: hidden;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+
+    .buybtn {
+      width: 80%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      .buy {
+        flex: 1;
+        height: 44px;
+        background-image: linear-gradient(-90deg, #fb3333, #ff5269);
+        box-shadow: 0 3px 9px 0 rgb(251 51 51 / 30%);
+        border-radius: 25px;
+        font-size: 16px;
+        // font-weight: bold;
+        color: #fff;
+        text-align: center;
+        line-height: 44px;
+        margin: 0 4px;
       }
     }
   }
