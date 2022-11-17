@@ -17,7 +17,12 @@
 
     <!-- 影院主体内容 -->
     <div :v-if="cinemaList">
-      <div class="cinema" v-for="item in cinemaList" :key="item.cinemaId">
+      <div
+        class="cinema"
+        v-for="item in cinemaList"
+        :key="item.cinemaId"
+        @click="tocinema(item.cinemaId)"
+      >
         <!-- 影院详情条目 -->
         <div class="info">
           <h3>{{ item.title }}</h3>
@@ -160,6 +165,10 @@ export default {
     becomeeid(id) {
       this.serviceid = id;
       this.getCinemasFun();
+    },
+    // 跳转影院详情页
+    tocinema(id) {
+      this.$router.push({ name: "CinemaDetail", query: { id: id } });
     },
     getCinemasFun() {
       getmoreCinemas({
