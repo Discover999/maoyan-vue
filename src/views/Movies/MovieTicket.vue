@@ -183,6 +183,15 @@
             </div>
           </div>
         </div>
+        <!-- 此项显示无影院结果 -->
+        <div v-if="cinemaTotal == 0">
+          <div class="no-cinema">
+            <div class="no-img">
+              <!-- <img src="@/assets/img/no-cinema.png" alt="" /> -->
+            </div>
+            <p>暂无符合条件的影院</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -201,6 +210,8 @@ export default {
       MovieIntro: null, //影片简介信息
       showday: null, //影片上映日期
       cinemaList: null, //影院列表
+      // 其他参数
+      cinemaTotal: null, //上映影院数量
       // 以下为页面传值所需参数
       date: null, //日期参数
       districtid: null, //行政区id
@@ -268,6 +279,8 @@ export default {
         lng: this.lng, //经度
       }).then((data) => {
         this.cinemaList = data.data.cinemas;
+        this.cinemaTotal = data.data.paging.total;
+        // console.log("上映影院数 => ", this.cinemaTotal);
         // console.log("影院列表 => ", this.cinemaList);
       });
     },
@@ -617,6 +630,24 @@ export default {
           width: 14px;
           height: 14px;
         }
+      }
+    }
+    .no-cinema {
+      width: 50%;
+      padding-top: 20%;
+      margin: auto;
+      .no-img {
+        width: 40%;
+        height: 86px;
+        margin: auto;
+        background: url("@/assets/img/no-cinema.png");
+        background-size: 100% 100%;
+      }
+      p {
+        font-size: 14px;
+        color: #777;
+        margin-top: 10px;
+        text-align: center;
       }
     }
   }

@@ -73,7 +73,7 @@
           >
             购票
           </div>
-          <div class="presale" v-else>预售</div>
+          <div class="presale" v-else @click="goticket(item.id)">预售</div>
         </div>
       </div>
     </div>
