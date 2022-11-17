@@ -5,14 +5,9 @@
     <div class="topBanner">
       <div class="title">最受好评电影</div>
       <div class="list" v-if="topRatedMovies">
-        <div
-          class="moviesList"
-          v-for="item in topRatedMovies.movieList"
-          :key="item.movieId"
-          @click="
-            $router.push({ name: 'MovieDetail', query: { id: item.movieId } })
-          "
-        >
+        <div class="moviesList" v-for="item in topRatedMovies.movieList" :key="item.movieId" @click="
+          $router.push({ name: 'MovieDetail', query: { id: item.movieId } })
+        ">
           <div class="img">
             <img :src="item.poster" />
             <span v-if="item.score"> 观众评分&nbsp;{{ item.score }} </span>
@@ -28,14 +23,9 @@
 
     <!-- 电影列表项 -->
     <div class="MovieList" v-if="MoreMovieList">
-      <div
-        class="item"
-        v-for="item in MoreMovieList.movieList"
-        :key="item.id"
-        @click="
-          $router.push({ name: 'MovieDetail', query: { id: item.id } })
-        "
-      >
+      <div class="item" v-for="item in MoreMovieList.movieList" :key="item.id" @click="
+        $router.push({ name: 'MovieDetail', query: { id: item.id } })
+      ">
         <!-- 项左图片 -->
         <div class="itemLeft">
           <img :src="item.img" alt />
@@ -71,7 +61,7 @@
               <span>{{ item.showInfo }}</span>
             </p>
           </div>
-          <div class="buy" v-if="item.showStateButton.content != '预售'">
+          <div class="buy" v-if="item.showStateButton.content != '预售'" @click="goticket">
             购票
           </div>
           <div class="presale" v-else>预售</div>
@@ -110,6 +100,10 @@ export default {
         // console.log(this.MoreMovieList.coming);
       });
     },
+    // 跳转购票页
+    goticket() {
+      this.$router.push('/ticket')
+    }
   },
 
   created() {
@@ -130,11 +124,13 @@ export default {
     line-height: 44px;
     font-size: 14px;
   }
+
   .list {
     display: flex;
     overflow: hidden;
     overflow: scroll;
   }
+
   // 去除底部滚动条
   .list::-webkit-scrollbar {
     display: none;
@@ -143,14 +139,17 @@ export default {
   .moviesList {
     margin-right: 10px;
     padding-bottom: 20px;
+
     .img {
       width: 84px;
       height: 114px;
       position: relative;
+
       img {
         width: 84px;
         height: 114px;
       }
+
       span {
         position: absolute;
         font-size: 12px;
@@ -160,6 +159,7 @@ export default {
         left: 3px;
         bottom: 2px;
       }
+
       .shadow {
         display: inline-block;
         width: 100%;
@@ -170,6 +170,7 @@ export default {
         background-image: linear-gradient(rgba(77, 77, 77, 0), #000);
       }
     }
+
     p {
       font-size: 13px;
       font-weight: bold;
@@ -185,20 +186,24 @@ export default {
 
 .MovieList {
   padding-bottom: 48px;
+
   .item {
     padding-left: 14px;
     height: 114px;
     display: flex;
     align-items: center;
+
     .itemLeft {
       width: 64px;
       height: 90px;
       margin-right: 10px;
+
       img {
         width: 64px;
         height: 90px;
       }
     }
+
     .itemRight {
       display: flex;
       justify-content: space-between;
@@ -206,14 +211,18 @@ export default {
       flex: 1;
       border-bottom: 1px solid #f0f0f0;
       height: 100%;
+
       .details {
         font-size: 14px;
         color: #777777;
+
         p {
           margin-top: 2px;
         }
+
         h3 {
           display: flex;
+
           .mname {
             font-size: 17px;
             font-weight: bold;
@@ -225,16 +234,19 @@ export default {
             // overflow: hidden;
             // text-overflow: clip;
           }
+
           span {
             // 2D、3D标签
             display: flex;
             justify-content: center;
             align-items: center;
+
             img {
               width: 43px;
             }
           }
         }
+
         .score {
           span {
             font-weight: bold;
@@ -243,6 +255,7 @@ export default {
           }
         }
       }
+
       .buy {
         color: #fff;
         background: #f03d37;
@@ -254,6 +267,7 @@ export default {
         font-size: 14px;
         margin-right: 14px;
       }
+
       .presale {
         color: #fff;
         background: #3c9fe6;
