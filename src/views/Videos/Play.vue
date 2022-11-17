@@ -13,6 +13,7 @@
         x5-playsinline="true"
         playsinline="true"
         webkit-playsinline="true"
+        onloadstart="this.volume=0.5"
       />
     </div>
     <div class="bofang" v-show="play" @click="playornot">
@@ -92,7 +93,11 @@ export default {
     justify-content: center;
     align-items: center;
     video {
+      height: 100%;
       width: 100%;
+    }
+    video::-webkit-media-controls {
+      display: none !important;
     }
   }
   .bofang {
