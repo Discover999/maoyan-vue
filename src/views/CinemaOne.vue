@@ -2,9 +2,9 @@
 <template>
   <div class="main">
     <!-- 最受好评电影顶部横幅 -->
-    <div class="topBanner">
+    <div class="topBanner" v-if="topRatedMovies">
       <div class="title">最受好评电影</div>
-      <div class="list" v-if="topRatedMovies">
+      <div class="list">
         <div
           class="moviesList"
           v-for="item in topRatedMovies.movieList"

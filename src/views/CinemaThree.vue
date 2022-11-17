@@ -48,10 +48,7 @@
                 <span>{{ item.wish }}</span>
                 人想看
               </p>
-              <p>
-                主演:
-                <span>{{ item.star }}</span>
-              </p>
+              <p>主演:{{ item.star }}</p>
               <p>{{ item.showInfo }}</p>
             </div>
             <div class="buy">预售</div>
@@ -220,6 +217,7 @@ export default {
         flex: 1;
         border-bottom: 1px solid #f5f5f5;
         height: 100%;
+        overflow: hidden;
         .buy {
           color: #fff;
           background: #3c9fe6;
@@ -234,8 +232,14 @@ export default {
         .text {
           font-size: 13px;
           color: #666;
+          box-sizing: border-box;
+          overflow: hidden;
+          width: 80%;
           p {
             margin-top: 2px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
           }
           h3 {
             display: flex;

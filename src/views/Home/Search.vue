@@ -111,7 +111,7 @@ export default {
       .toback {
         // 返回按钮
         position: absolute;
-        font-size: 26px;
+        font-size: 16px;
         font-family: "宋体";
         font-weight: bold;
         left: 2%;
