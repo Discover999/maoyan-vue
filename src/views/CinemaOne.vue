@@ -5,9 +5,14 @@
     <div class="topBanner">
       <div class="title">最受好评电影</div>
       <div class="list" v-if="topRatedMovies">
-        <div class="moviesList" v-for="item in topRatedMovies.movieList" :key="item.movieId" @click="
-          $router.push({ name: 'MovieDetail', query: { id: item.movieId } })
-        ">
+        <div
+          class="moviesList"
+          v-for="item in topRatedMovies.movieList"
+          :key="item.movieId"
+          @click="
+            $router.push({ name: 'MovieDetail', query: { id: item.movieId } })
+          "
+        >
           <div class="img">
             <img :src="item.poster" />
             <span v-if="item.score"> 观众评分&nbsp;{{ item.score }} </span>
@@ -23,9 +28,12 @@
 
     <!-- 电影列表项 -->
     <div class="MovieList" v-if="MoreMovieList">
-      <div class="item" v-for="item in MoreMovieList.movieList" :key="item.id" @click="
-        $router.push({ name: 'MovieDetail', query: { id: item.id } })
-      ">
+      <div
+        class="item"
+        v-for="item in MoreMovieList.movieList"
+        :key="item.id"
+        @click="$router.push({ name: 'MovieDetail', query: { id: item.id } })"
+      >
         <!-- 项左图片 -->
         <div class="itemLeft">
           <img :src="item.img" alt />
@@ -61,7 +69,11 @@
               <span>{{ item.showInfo }}</span>
             </p>
           </div>
-          <div class="buy" v-if="item.showStateButton.content != '预售'" @click="goticket">
+          <div
+            class="buy"
+            v-if="item.showStateButton.content != '预售'"
+            @click="goticket"
+          >
             购票
           </div>
           <div class="presale" v-else>预售</div>
@@ -102,8 +114,8 @@ export default {
     },
     // 跳转购票页
     goticket() {
-      this.$router.push('/ticket')
-    }
+      this.$router.push("/ticket");
+    },
   },
 
   created() {
