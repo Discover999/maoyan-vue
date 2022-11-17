@@ -318,7 +318,7 @@ export default {
   width: 100%;
   top: 156px;
   background: #fff;
-  z-index: 10;
+  z-index: 6;
   .alltag {
     display: flex;
     margin: 0 18px;
