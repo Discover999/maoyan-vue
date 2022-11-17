@@ -61,10 +61,7 @@
             </p>
             <p class="score" v-else>暂无评分</p>
 
-            <p>
-              主演:
-              <span>{{ item.star }}</span>
-            </p>
+            <p>主演:{{ item.star }}</p>
             <p>
               <span>{{ item.showInfo }}</span>
             </p>
@@ -223,13 +220,20 @@ export default {
       flex: 1;
       border-bottom: 1px solid #f0f0f0;
       height: 100%;
+      overflow: hidden;
 
       .details {
-        font-size: 14px;
-        color: #777777;
+        font-size: 13px;
+        color: #666;
+        box-sizing: border-box;
+        overflow: hidden;
+        width: 80%;
 
         p {
-          margin-top: 2px;
+          margin-top: 4px;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
         }
 
         h3 {
