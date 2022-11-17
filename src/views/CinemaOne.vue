@@ -69,7 +69,7 @@
           <div
             class="buy"
             v-if="item.showStateButton.content != '预售'"
-            @click="goticket"
+            @click="goticket(item.id)"
           >
             购票
           </div>
@@ -110,8 +110,8 @@ export default {
       });
     },
     // 跳转购票页
-    goticket() {
-      this.$router.push("/ticket");
+    goticket(id) {
+      this.$router.push({ name: "MovieTicket", query: { id: id } });
     },
   },
 
