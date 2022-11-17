@@ -10,6 +10,7 @@ import MyPosition from '../views/Home/MyPosition.vue'
 import Search from '../views/Home/Search.vue'
 import MyMine from '../views/Mine/MyMine.vue'
 import Login from '../views/Mine/Login.vue'
+import MovieTicket from '../views/Movies/MovieTicket.vue'
 
 
 Vue.use(VueRouter)
@@ -66,6 +67,12 @@ const routes = [
     path: '/moviedetail',
     name: "MovieDetail",
     component: MovieDetail,
+  },
+  {
+    // 电影购票页
+    path: '/ticket',
+    name: "MovieTicket",
+    component: MovieTicket,
   },
   {
     // 城市列表
