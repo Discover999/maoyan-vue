@@ -95,17 +95,19 @@
       <!-- 结果显示 -->
       <div class="show-cinema">
         <!-- 影院主体内容 -->
-        <div :v-if="cinemaList">
-          <div class="cinema" v-for="item in cinemaList" :key="item.cinemaId">
+        <div v-if="cinemaList">
+          <div class="cinema" v-for="(item, index) in cinemaList" :key="index">
             <!-- 影院详情条目 -->
             <div class="info">
-              <h3>{{ item.title }}</h3>
-              <span>&nbsp;&nbsp;{{ item.price.n }}</span>
-              <div>&nbsp;{{ item.price.q }}</div>
+              <h3>{{ item.name }}</h3>
+              <span
+                >{{ item.sellPrice }}
+                <p>&nbsp;元起</p></span
+              >
             </div>
             <!-- 地址及距离 -->
             <div class="local">
-              <p>{{ item.location }}</p>
+              <p>{{ item.addr }}</p>
               <span>{{ item.distance }}</span>
             </div>
 
@@ -114,65 +116,68 @@
             <div class="tag">
               <div
                 :class="[
-                  item.services[0].text == '小吃' ? 'bor' : '',
-                  item.services[0].text == '折扣卡' ? 'bor' : '',
+                  item.labels[0].name == '小吃' ? 'bor' : '',
+                  item.labels[0].name == '影城卡' ? 'bor' : '',
                 ]"
-                v-if="item.services[0]"
+                v-if="item.labels[0]"
               >
-                {{ item.services[0].text }}
+                {{ item.labels[0].name }}
               </div>
               <div
                 :class="[
-                  item.services[1].text == '小吃' ? 'bor' : '',
-                  item.services[1].text == '折扣卡' ? 'bor' : '',
+                  item.labels[1].name == '小吃' ? 'bor' : '',
+                  item.labels[1].name == '影城卡' ? 'bor' : '',
                 ]"
-                v-if="item.services[1]"
+                v-if="item.labels[1]"
               >
-                {{ item.services[1].text }}
+                {{ item.labels[1].name }}
               </div>
               <div
                 :class="[
-                  item.services[2].text == '小吃' ? 'bor' : '',
-                  item.services[2].text == '折扣卡' ? 'bor' : '',
+                  item.labels[2].name == '小吃' ? 'bor' : '',
+                  item.labels[2].name == '影城卡' ? 'bor' : '',
                 ]"
-                v-if="item.services[2]"
+                v-if="item.labels[2]"
               >
-                {{ item.services[2].text }}
+                {{ item.labels[2].name }}
               </div>
               <div
                 :class="[
-                  item.services[3].text == '小吃' ? 'bor' : '',
-                  item.services[3].text == '折扣卡' ? 'bor' : '',
+                  item.labels[3].name == '小吃' ? 'bor' : '',
+                  item.labels[3].name == '影城卡' ? 'bor' : '',
                 ]"
-                v-if="item.services[3]"
+                v-if="item.labels[3]"
               >
-                {{ item.services[3].text }}
+                {{ item.labels[3].name }}
               </div>
               <div
                 :class="[
-                  item.services[4].text == '小吃' ? 'bor' : '',
-                  item.services[4].text == '折扣卡' ? 'bor' : '',
+                  item.labels[4].name == '小吃' ? 'bor' : '',
+                  item.labels[4].name == '影城卡' ? 'bor' : '',
                 ]"
-                v-if="item.services[4]"
+                v-if="item.labels[4]"
               >
-                {{ item.services[4].text }}
+                {{ item.labels[4].name }}
               </div>
               <div
                 :class="[
-                  item.services[5].text == '小吃' ? 'bor' : '',
-                  item.services[5].text == '折扣卡' ? 'bor' : '',
+                  item.labels[5].name == '小吃' ? 'bor' : '',
+                  item.labels[5].name == '影城卡' ? 'bor' : '',
                 ]"
-                v-if="item.services[5]"
+                v-if="item.labels[5]"
               >
-                {{ item.services[5].text }}
+                {{ item.labels[5].name }}
               </div>
             </div>
 
-            <!-- 详情条目底部开卡特惠 -->
-            <div class="tag2" v-if="item.discount[0]">
+            <!-- 条目开卡特惠 -->
+            <div class="tag2" v-if="item.promotion.cardPromotionTag">
               <img src="@/assets/img/card.png" alt="折扣卡图标" />
-              <!-- <img :src="item.discount[0].card" alt="折扣卡图标" /> -->
-              <div>{{ item.discount[0].text }}</div>
+              <div>{{ item.promotion.cardPromotionTag }}</div>
+            </div>
+            <!-- 底部场次信息 -->
+            <div class="tag3" v-if="item.showTimes">
+              <div>{{ item.showTimes }}</div>
             </div>
           </div>
         </div>
@@ -207,17 +212,41 @@ export default {
   },
   methods: {
     getShowDayFun() {
+      // 获取上映时间
       getShowDay({ movieId: this.movieId }).then((data) => {
         this.showday = data.data.dates;
         // console.log("影片上映日期 => ", this.showday);
       });
     },
     getMovieIntroFun() {
+      // 获取影片的基本信息
       getMovieIntro({ movieId: this.movieId }).then((data) => {
         this.MovieIntro = data.data.movie;
-        console.log("影片信息 => ", this.MovieIntro);
+        // console.log("影片信息 => ", this.MovieIntro);
       });
     },
+    getShowCinemasFun() {
+      // 获取影片上映影院列表
+      getShowCinemas({
+        // 请求参数：query
+        movieId: this.movieId,
+        offset: 0,
+        client: "iphone",
+        channelId: 4,
+        cityId: this.cityip,
+        showDate: "2022-11-17",
+        districtId: this.districid, // 行政区id
+        hallType: this.halltype, // 影厅类型
+        brandIds: this.brandid, // 品牌
+        serviceIds: this.serviceid, // 影院服务
+        lat: this.lat, //纬度
+        lng: this.lng, //经度
+      }).then((data) => {
+        this.cinemaList = data.data.cinemas;
+        console.log("影院列表 => ", this.cinemaList);
+      });
+    },
+
     // 改变行政区id
     becomedid(id) {
       this.districid = id;
@@ -240,8 +269,9 @@ export default {
     // console.log("movieId => ", this.movieId);
     // console.log("城市 => ", this.cityip);
     if (this.movieId != null) {
-      this.getShowDayFun();
-      this.getMovieIntroFun();
+      this.getShowDayFun(); //获取上映日
+      this.getMovieIntroFun(); //获取基本信息
+      this.getShowCinemasFun(); // 获取影院列表
     }
   },
   components: {
@@ -472,18 +502,23 @@ export default {
       .info {
         // 详细信息样式
         display: flex;
+        justify-content: space-between;
         align-items: center;
         white-space: nowrap;
         span {
           // 价格
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
           color: #f03d37;
           font-size: 18px;
+          p {
+            // [元起]
+            color: #f03d37;
+            font-size: 12px;
+          }
         }
-        div {
-          // [起]
-          color: #f03d37;
-          font-size: 12px;
-        }
+
         h3 {
           // 影院名称
           white-space: nowrap;
@@ -499,7 +534,7 @@ export default {
         margin-top: 4px;
         p {
           // 影院地址
-          font-size: 14px;
+          font-size: 13px;
           height: 18px;
           margin-top: 4px;
           color: #666;
@@ -510,7 +545,7 @@ export default {
         span {
           margin-top: 8px;
           color: #666;
-          font-size: 14px;
+          font-size: 13px;
           height: 18px;
         }
       }
@@ -533,8 +568,9 @@ export default {
           color: #f90;
         }
       }
-      .tag2 {
-        // 底部开卡样式
+      .tag2,
+      .tag3 {
+        // 底部样式
         display: flex;
         color: #999999;
         font-size: 12px;

@@ -24,7 +24,7 @@ export function getShowDay(params) {
 // https://apis.netstart.cn/maoyan/movie/select/cinemas?limit=20&showDate=2022-11-18&movieId=1359975&cityId=20
 export function getShowCinemas(params) {
     return request({
-        url: "select/cinemas",
+        url: "movie/select/cinemas",
         method: "get",
         params
     })
