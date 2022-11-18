@@ -21,7 +21,21 @@
       </div>
       <div class="movie-list">
         <!-- 电影海报展示 -->
-        <div class="movie-swap"></div>
+        <div class="movie-swap">
+          <div
+            class="post-bg"
+            style="
+              background-image: url('https://p0.pipi.cn/mmdb/25bfd6922ffc7e50c8af3397dee2d43a3e265.jpg?imageView2/1');
+            "
+          />
+          <div class="post-bg1"></div>
+          <div class="list-swap">
+            <!-- 滑动列 -->
+            <div class="one" v-for="(item, index) in movieList" :key="index">
+              <img :src="item.img" alt="" />
+            </div>
+          </div>
+        </div>
         <!-- 底部电影信息 -->
         <div class="movie-info">
           <div class="info">
@@ -37,6 +51,60 @@
       </div>
       <div class="main-part">
         <!-- 页面下方数据显示 -->
+        <div class="date-nav">
+          <!-- 日期选择 -->
+          <div class="days">
+            <div class="day-chosen">
+              <span>11-17</span>
+            </div>
+            <div class="day-chosen">
+              <span>11-17</span>
+            </div>
+          </div>
+        </div>
+        <div class="vip">
+          <!-- 优惠信息 -->
+          <div class="vip-tip">
+            <div class="vleft">
+              <span class="lab">折扣</span>
+              <p>开卡享优惠</p>
+            </div>
+            <div class="vright">
+              <span>4.9元起开卡</span>
+              <img src="@/assets/img/arrow-right-black.png" alt="" />
+            </div>
+          </div>
+        </div>
+        <!-- 内容主体 -->
+        <div class="show-list">
+          <div class="item">
+            <div class="show-item">
+              <!-- 时间 -->
+              <div class="time">
+                <div class="t">18:00</div>
+                <div class="b">19:50散场</div>
+              </div>
+              <!-- 播放信息 -->
+              <div class="info">
+                <div class="ver">日语2D</div>
+                <div class="local">4号激光厅（免费停车3小时）</div>
+              </div>
+              <!-- 价格 -->
+              <div class="price">
+                <span class="ico">￥</span>
+                <div class="p">25</div>
+                <div class="car">
+                  <span class="tag">影城卡</span>
+                  <span class="pri">￥25块</span>
+                </div>
+              </div>
+              <!-- 【购票】 -->
+              <div class="btn">
+                <div class="buy">购票</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -52,6 +120,7 @@ export default {
       cinemaId: null, //影院ID
       cinemaDetail: null, //影院详情
       cinemaShow: null, //正在上映电影列表
+      movieList: null, //电影列表
     };
   },
   methods: {
@@ -72,7 +141,9 @@ export default {
         channelId: 4,
       }).then((data) => {
         this.cinemaShow = data;
+        this.movieList = data.data.movies;
         console.log("正在上映电影 => ", this.cinemaShow);
+        console.log("电影列表 => ", this.movieList);
       });
     },
   },
@@ -91,6 +162,10 @@ export default {
 <style lang="less" scoped>
 .main {
   background-color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
   .cinemaTop {
     // 头部样式
     display: flex;
@@ -167,6 +242,62 @@ export default {
         padding: 20px 15px 20px 5px;
         -webkit-transform: translateZ(0);
         transform: translateZ(0);
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        overflow: hidden;
+        list-style: none;
+        z-index: 1;
+        .post-bg {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          background-size: contain;
+          -webkit-filter: blur(30px);
+          filter: blur(30px);
+          background-position-y: 40%;
+          background-size: 100%;
+          overflow: hidden;
+          z-index: -1;
+        }
+        .post-bg1 {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          background-color: #40454d;
+          opacity: 0.55;
+        }
+        .list-swap {
+          position: relative;
+          // width: 100%;
+          // height: 100%;
+          z-index: 1;
+          display: flex;
+          display: -webkit-box;
+          display: -webkit-flex;
+          overflow: hidden;
+          overflow-x: auto;
+          white-space: nowrap;
+          .one {
+            width: 65px;
+            height: 95px;
+            margin-left: 15px;
+            display: inline-block;
+            flex-shrink: 0;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+        }
+        // 去除底部滚动条
+        .list-swap::-webkit-scrollbar {
+          display: none;
+        }
       }
       .movie-info {
         height: 66.5px;
@@ -202,6 +333,206 @@ export default {
             font-size: 13px;
             color: #999;
             overflow: hidden;
+          }
+        }
+      }
+    }
+    .main-part {
+      .date-nav {
+        .days {
+          // 日期选择
+          position: relative;
+          display: -webkit-box;
+          display: -webkit-flex;
+          display: flex;
+          width: 100%;
+          height: 45px;
+          background-color: #fff;
+          overflow-x: auto;
+          z-index: 11;
+          .day-chosen {
+            flex: none;
+            min-width: 115px;
+            line-height: 43px;
+            margin-left: 4.5px;
+            font-size: 16px;
+            text-align: center;
+            color: #666;
+          }
+        }
+        // 去除底部滚动条
+        .days::-webkit-scrollbar {
+          display: none;
+        }
+      }
+      .vip {
+        margin-top: -1px;
+        background-color: #fff5ea;
+        .vip-tip {
+          padding: 0 15px;
+          height: 42px;
+          line-height: 42px;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .vleft {
+            // 开卡享优惠
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            // flex: 1 1 auto;
+            // color: #60b8e1;
+            color: #ff941a;
+            font-size: 12px;
+            .lab {
+              background-color: #ff941a;
+              -webkit-box-flex: 0;
+              -webkit-flex: 0 0 auto;
+              flex: 0 0 auto;
+              display: inline-block;
+              // background-color: #60b8e1;
+              border-radius: 2px;
+              font-size: 10px;
+              line-height: 15px;
+              height: 15px;
+              width: 34px;
+              text-align: center;
+              color: #fff;
+              // margin-top: 13px;
+              margin-right: 10px;
+            }
+          }
+          .vright {
+            // 4.9元起开卡
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            // flex: 0 0 auto;
+            line-height: 42px;
+            color: #999;
+            font-size: 12px;
+            img {
+              margin-left: 4px;
+              height: 12px;
+              width: 8px;
+            }
+          }
+        }
+      }
+      .show-list {
+        // 今日播放影片信息
+        .item {
+          padding: 17px 12.5px;
+          position: relative;
+          border: none;
+          .show-item {
+            display: flex;
+            .btn {
+              // 购票
+              width: 45px;
+              margin-left: 2px;
+              position: relative;
+              .buy {
+                position: absolute;
+                top: 50%;
+                -webkit-transform: translateY(-50%);
+                transform: translateY(-50%);
+                width: 100%;
+                height: 25px;
+                line-height: 26px;
+                font-size: 12px;
+                border: 1px solid #f06762;
+                border-radius: 50px;
+                color: #f03d37;
+                text-align: center;
+              }
+            }
+            .time {
+              // 时间
+              position: relative;
+              .t {
+                // 18:00
+                font-size: 20px;
+                color: #333;
+                line-height: 1;
+                white-space: nowrap;
+              }
+              .b {
+                // 19:50散场
+                margin-top: 10px;
+                color: #999;
+                font-size: 11px;
+                line-height: 1;
+                white-space: nowrap;
+              }
+            }
+            .info {
+              // 播放信息
+              margin-left: 17px;
+              flex: 1;
+              .ver {
+                // 播放版本
+                margin-top: 2px;
+                line-height: 18px;
+                font-size: 13px;
+                color: #333;
+                white-space: normal;
+              }
+              .local {
+                // 播放影厅
+                margin-top: 7px;
+                font-size: 11px;
+                color: #999;
+                white-space: normal;
+              }
+            }
+            .price {
+              // 价格
+              display: flex;
+              flex: 0 1 auto;
+              width: 130px;
+              margin-left: 5px;
+              justify-content: center;
+              align-items: center;
+              text-align: center;
+              .ico {
+                // ￥
+                font-size: 11px;
+                color: #f03d37;
+              }
+              .p {
+                display: inline-block;
+                line-height: 1;
+                color: #f03d37;
+                margin-top: 1px;
+                font-size: 19px;
+              }
+              .car {
+                // 会员优惠
+                display: inline-block;
+                line-height: 15px;
+                height: 15px;
+                -webkit-transform: scale(0.8);
+                transform: scale(0.8);
+                -webkit-transform-origin: left;
+                transform-origin: left;
+                margin: 0 -16px 0 4px;
+                border: 1px solid #ff9000;
+                border-radius: 2px;
+                font-size: 12px;
+                .tag {
+                  display: inline-block;
+                  color: #fff;
+                  background-color: #f90;
+                }
+                .pri {
+                  display: inline-block;
+                  padding: 0 2px;
+                  color: #f90;
+                  background-color: #fff;
+                }
+              }
+            }
           }
         }
       }
