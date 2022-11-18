@@ -62,6 +62,7 @@
               class="day-chosen"
               v-for="(item, index) in showsInfo"
               :key="index"
+              :class="index == dateselect ? 'dateselect' : ''"
             >
               <span>{{ item.showDate | date }}</span>
             </div>
@@ -122,7 +123,8 @@ export default {
   props: ["cityip"],
   data() {
     return {
-      active: 0, //高亮
+      active: 0, //影片选择高亮
+      dateselect: 0, //日期选择高亮
       coverbg: null, //影片选择列背景(模糊)
       cinemaId: null, //影院ID
       cinemaDetail: null, //影院详情
@@ -423,6 +425,10 @@ export default {
             font-size: 16px;
             text-align: center;
             color: #666;
+          }
+          .dateselect {
+            border-bottom: 2.5px solid #f03d37;
+            color: #f03d37;
           }
         }
         // 去除底部滚动条
