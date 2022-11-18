@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <!-- 视频流列表 -->
-    <div class="videostream">
+    <div class="videostream" v-if="VideoList">
       <div
         class="videolist"
         v-for="(item, index) in VideoList"
@@ -16,7 +16,7 @@
 
         <!-- 底部信息bar -->
         <div class="info-bar">
-          <div class="time">
+          <div class="time" v-if="item.video">
             <!-- 视频时间长度 -->
             {{ parseInt(item.video.dur / 60) }}:{{
               parseInt(item.video.dur % 60) &lt; 10
@@ -28,7 +28,7 @@
 
         <!-- 用户信息 -->
         <div class="video-info">
-          <div class="user-info">
+          <div class="user-info" v-if="item.user">
             <img :src="item.user.avatarurl" alt="" />
             <div class="username">{{ item.user.nickName }}</div>
           </div>
@@ -65,7 +65,10 @@ export default {
     // 跳转视频播放页
     toplay(id, index) {
       this.$router.push({
-        name: "play", // 路由定义的 name
+        name: "play", // 路由定义的
+        // params: {  // params 传参刷新会刷掉参数而报错
+        //   vid: id,
+        // },
         query: { page: "2", index: index, vid: id }, // 使用 query 传参防止刷新出错
       });
     },

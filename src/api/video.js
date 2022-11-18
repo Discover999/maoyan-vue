@@ -13,7 +13,8 @@ export function getShortVideo() {
 // https://apis.netstart.cn/maoyan/video/0
 export function getVideos1() {
     return request({
-        url: "video/0",
+        // url: "video/0",
+        url: "video/0?feedChannelId=0",
         method: "get"
     })
 }

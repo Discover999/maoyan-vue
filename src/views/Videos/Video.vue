@@ -133,8 +133,9 @@ export default {
       height: 60px;
       width: 60px;
       position: absolute;
-      left: 44%;
-      top: 30%;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, -50%);
     }
 
     .info-bar {
