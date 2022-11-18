@@ -24,28 +24,32 @@
         <div class="movie-swap">
           <div
             class="post-bg"
-            style="
-              background-image: url('https://p0.pipi.cn/mmdb/25bfd6922ffc7e50c8af3397dee2d43a3e265.jpg?imageView2/1');
-            "
+            :style="'background-image: url(' + coverbg + ')'"
           />
           <div class="post-bg1"></div>
           <div class="list-swap">
-            <!-- 滑动列 -->
-            <div class="one" v-for="(item, index) in movieList" :key="index">
-              <img :src="item.img" alt="" />
+            <!-- 影片滑动列 -->
+            <div
+              class="one"
+              v-for="(item, index) in movieList"
+              :key="index"
+              :class="index == active ? 'active' : ''"
+            >
+              <img :src="item.img" alt="" @click="getIndex(index)" />
             </div>
           </div>
         </div>
         <!-- 底部电影信息 -->
-        <div class="movie-info">
+        <div class="movie-info" v-if="selectShow">
           <div class="info">
             <!-- 电影标题 -->
             <div class="title">
-              <span class="name">钢铁意志</span>
-              <span class="sc">暂无评分</span>
+              <span class="name">{{ selectShow.nm }}</span>
+              <span class="sc" v-if="selectShow.sc == 0.0">暂无评分</span>
+              <span class="sc" v-else> {{ selectShow.sc }}</span>
             </div>
-            <!-- 电影相关信息 -->
-            <div class="detail">105分钟 | 历史 | 刘烨,韩雪,林永健</div>
+            <!-- 电影相关简介信息 -->
+            <div class="detail">{{ selectShow.desc }}</div>
           </div>
         </div>
       </div>
@@ -54,11 +58,12 @@
         <div class="date-nav">
           <!-- 日期选择 -->
           <div class="days">
-            <div class="day-chosen">
-              <span>11-17</span>
-            </div>
-            <div class="day-chosen">
-              <span>11-17</span>
+            <div
+              class="day-chosen"
+              v-for="(item, index) in showsInfo"
+              :key="index"
+            >
+              <span>{{ item.showDate | date }}</span>
             </div>
           </div>
         </div>
@@ -117,20 +122,35 @@ export default {
   props: ["cityip"],
   data() {
     return {
+      active: 0, //高亮
+      coverbg: null, //影片选择列背景(模糊)
       cinemaId: null, //影院ID
       cinemaDetail: null, //影院详情
       cinemaShow: null, //正在上映电影列表
       movieList: null, //电影列表
+      showIndex: 0, //选择的Index值
+      selectShow: null, //选择的电影数据
+      showsInfo: null, //播放日期
     };
   },
   methods: {
+    getIndex(index) {
+      this.active = index; //赋值高亮效果
+      this.showIndex = index; //取出点击索引号
+      this.selectShow = this.movieList[index]; //取出对应索引号数据
+      this.coverbg = this.selectShow.img; //获取背景图
+      this.showsInfo = this.selectShow.shows; //取出播放信息
+      // console.log("点击的Index => ", this.showIndex);
+      console.log("点击取出的影片信息 => ", this.selectShow);
+      console.log("影片播放信息 => ", this.showsInfo);
+    },
     getCinemaDetailFun() {
       // 获取影院详情
       getCinemaDetail({
         cinemaId: this.cinemaId, // 影院ID
       }).then((data) => {
         this.cinemaDetail = data.data;
-        console.log("影院数据 => ", this.cinemaDetail);
+        // console.log("影院数据 => ", this.cinemaDetail);
       });
     },
     getCinemaShowFun() {
@@ -142,7 +162,10 @@ export default {
       }).then((data) => {
         this.cinemaShow = data;
         this.movieList = data.data.movies;
-        console.log("正在上映电影 => ", this.cinemaShow);
+        this.selectShow = this.movieList[0]; //默认赋值第0项数据
+        this.coverbg = this.selectShow.img; //获取背景图
+        this.showsInfo = this.selectShow.shows; //取出影院播放信息
+        // console.log("正在上映电影 => ", this.cinemaShow);
         console.log("电影列表 => ", this.movieList);
       });
     },
@@ -155,7 +178,38 @@ export default {
       this.getCinemaShowFun();
     }
   },
+  computed: {},
   watch: {},
+  filters: {
+    // 格式化日期
+    date: (val) => {
+      var val = new Date(val); // 转换成日期格式
+      // let year = val.getFullYear(); // 年
+      let month = val.getMonth() + 1; //月
+      let day = val.getDate(); //日
+      var ofday = ""; //差几天
+      var week = ""; //周几
+      let wk = val.getDay(); //获取一周中的第几天
+      let weeks = ["周日", "周一", "周二", "周三", "周四", "周五", "周六"];
+
+      // 今明后
+      let today = new Date().getDate(); // 今天是几号
+      let offset = Math.abs(day - today); //计算差值
+      if (offset < 3) {
+        if (offset === 0) {
+          ofday = "今天";
+        } else if (offset === 1) {
+          ofday = "明天";
+        } else if (offset === 2) {
+          ofday = "后天";
+        }
+      } else {
+        week = weeks[wk]; //若超过后天则返回周几
+      }
+
+      return `${ofday}${week}${month}月${day}日`; //返回格式化后数据
+    },
+  },
 };
 </script>
 
@@ -292,6 +346,17 @@ export default {
               width: 100%;
               height: 100%;
             }
+          }
+          .active {
+            //影片选中高亮
+            width: 75px;
+            height: 105px;
+            border: 3px solid #fff;
+            // transition: all 0.5s;
+            // transition: width 1s;
+            // -moz-transition: width 1s;
+            // -webkit-transition: width 1s;
+            // -o-transition: width 1s;
           }
         }
         // 去除底部滚动条
