@@ -4,7 +4,7 @@
     <div class="mineTop">我的</div>
 
     <div class="mineHead">
-      <div class="shot">
+      <div class="shot" @click="toMyGithub">
         <!-- 顶部头像 -->
         <img src="@/assets/img/ikun.jpg" alt="" />
       </div>
@@ -77,6 +77,9 @@ export default {
       }).then(() => {
         // on close
       });
+    },
+    toMyGithub() {
+      window.location.href = "https://github.com/Discover999";
     },
   },
 };

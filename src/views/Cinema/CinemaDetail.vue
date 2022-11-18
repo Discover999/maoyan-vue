@@ -21,7 +21,7 @@
       </div>
       <div class="movie-list">
         <!-- 电影海报展示 -->
-        <div class="movie-swap">
+        <div class="movie-swap" v-if="movieList">
           <div
             class="post-bg"
             :style="'background-image: url(' + coverbg + ')'"
@@ -55,7 +55,7 @@
       </div>
       <div class="main-part">
         <!-- 页面下方数据显示 -->
-        <div class="date-nav">
+        <div class="date-nav" v-if="showsInfo">
           <!-- 日期选择 -->
           <div class="days">
             <div
@@ -73,7 +73,7 @@
           <div class="vip-tip">
             <div class="vleft">
               <span class="lab">折扣</span>
-              <p>开卡享优惠</p>
+              <p>{{ vipInfo.desc }}</p>
             </div>
             <div class="vright">
               <span>4.9元起开卡</span>
@@ -133,6 +133,7 @@ export default {
       showIndex: 0, //选择的Index值
       selectShow: null, //选择的电影数据
       showsInfo: null, //播放日期
+      vipInfo: null, //日期下面的优惠信息
     };
   },
   methods: {
@@ -152,7 +153,9 @@ export default {
         cinemaId: this.cinemaId, // 影院ID
       }).then((data) => {
         this.cinemaDetail = data.data;
-        // console.log("影院数据 => ", this.cinemaDetail);
+        this.vipInfo = this.cinemaDetail.vipInfo;
+        console.log("影院数据 => ", this.cinemaDetail);
+        console.log("优惠 => ", this.vipInfo);
       });
     },
     getCinemaShowFun() {
