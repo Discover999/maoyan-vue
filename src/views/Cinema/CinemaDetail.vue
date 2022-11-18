@@ -63,6 +63,7 @@
               v-for="(item, index) in showsInfo"
               :key="index"
               :class="index == dateselect ? 'dateselect' : ''"
+              @click="selectDate(index, item)"
             >
               <span>{{ item.showDate | date }}</span>
             </div>
@@ -70,38 +71,42 @@
         </div>
         <div class="vip">
           <!-- 优惠信息 -->
-          <div class="vip-tip">
+          <div class="vip-tip" v-if="vipInfo">
             <div class="vleft">
               <span class="lab">折扣</span>
               <p>{{ vipInfo.desc }}</p>
             </div>
             <div class="vright">
-              <span>4.9元起开卡</span>
+              <!-- <span>4.9元起开卡</span> -->
               <img src="@/assets/img/arrow-right-black.png" alt="" />
             </div>
           </div>
         </div>
         <!-- 内容主体 -->
-        <div class="show-list">
+        <div class="show-list" v-if="listInfo">
           <div class="item">
-            <div class="show-item">
+            <div
+              class="show-item"
+              v-for="(item, index) in listInfo"
+              :key="index"
+            >
               <!-- 时间 -->
               <div class="time">
-                <div class="t">18:00</div>
-                <div class="b">19:50散场</div>
+                <div class="t">{{ item.tm }}</div>
+                <div class="b">{{ item.tm }}散场</div>
               </div>
               <!-- 播放信息 -->
               <div class="info">
-                <div class="ver">日语2D</div>
-                <div class="local">4号激光厅（免费停车3小时）</div>
+                <div class="ver">{{ item.lang }}&nbsp;{{ item.tp }}</div>
+                <div class="local">{{ item.th }}</div>
               </div>
               <!-- 价格 -->
               <div class="price">
                 <span class="ico">￥</span>
-                <div class="p">25</div>
+                <div class="p">{{ item.sellPr }}</div>
                 <div class="car">
-                  <span class="tag">影城卡</span>
-                  <span class="pri">￥25块</span>
+                  <span class="tag">{{ item.vipPriceName }}</span>
+                  <span class="pri">￥{{ item.vipPrice }}</span>
                 </div>
               </div>
               <!-- 【购票】 -->
@@ -110,6 +115,10 @@
               </div>
             </div>
           </div>
+        </div>
+        <div v-if="!moviecount" class="nomore">
+          <img class="noimg" src="@/assets/img/today-no-show.png" alt="" />
+          <div class="text">今日场次已映完</div>
         </div>
       </div>
     </div>
@@ -123,29 +132,44 @@ export default {
   props: ["cityip"],
   data() {
     return {
-      active: 0, //影片选择高亮
-      dateselect: 0, //日期选择高亮
+      active: 0, //影片选择Index
+      dateselect: 0, //日期选择Index
       coverbg: null, //影片选择列背景(模糊)
       cinemaId: null, //影院ID
       cinemaDetail: null, //影院详情
       cinemaShow: null, //正在上映电影列表
       movieList: null, //电影列表
-      showIndex: 0, //选择的Index值
+      showIndex: 0, //选择的电影的Index值
       selectShow: null, //选择的电影数据
       showsInfo: null, //播放日期
+      moviedur: 0, //影片时长
+      moviecount: 1, //当日放映场次
+      listInfo: null, //上映时间详细
       vipInfo: null, //日期下面的优惠信息
     };
   },
   methods: {
+    selectDate(index, item) {
+      // 选择日期
+      this.dateselect = index; //赋值高亮
+      this.listInfo = item.plist; //详细
+      this.moviecount = this.listInfo.length;
+      // console.log("详细 => ", this.listInfo);
+    },
     getIndex(index) {
+      // 切换影片执行动作
       this.active = index; //赋值高亮效果
       this.showIndex = index; //取出点击索引号
+      this.dateselect = 0; //切换影片后将日期跳回当日
       this.selectShow = this.movieList[index]; //取出对应索引号数据
       this.coverbg = this.selectShow.img; //获取背景图
       this.showsInfo = this.selectShow.shows; //取出播放信息
+      this.listInfo = this.showsInfo[0].plist; //取出第一天的影院播放信息
+      this.moviedur = this.selectShow.dur; //获取当前影片时长
+      this.moviecount = this.listInfo.length;
       // console.log("点击的Index => ", this.showIndex);
-      console.log("点击取出的影片信息 => ", this.selectShow);
-      console.log("影片播放信息 => ", this.showsInfo);
+      // console.log("点击取出的影片信息 => ", this.selectShow);
+      // console.log("影片播放信息 => ", this.showsInfo);
     },
     getCinemaDetailFun() {
       // 获取影院详情
@@ -154,8 +178,8 @@ export default {
       }).then((data) => {
         this.cinemaDetail = data.data;
         this.vipInfo = this.cinemaDetail.vipInfo;
-        console.log("影院数据 => ", this.cinemaDetail);
-        console.log("优惠 => ", this.vipInfo);
+        // console.log("影院数据 => ", this.cinemaDetail);
+        // console.log("优惠 => ", this.vipInfo);
       });
     },
     getCinemaShowFun() {
@@ -170,8 +194,9 @@ export default {
         this.selectShow = this.movieList[0]; //默认赋值第0项数据
         this.coverbg = this.selectShow.img; //获取背景图
         this.showsInfo = this.selectShow.shows; //取出影院播放信息
+        this.listInfo = this.showsInfo[0].plist; //取出第一天的影院播放信息
         // console.log("正在上映电影 => ", this.cinemaShow);
-        console.log("电影列表 => ", this.movieList);
+        // console.log("电影列表 => ", this.movieList);
       });
     },
   },
@@ -214,13 +239,18 @@ export default {
 
       return `${ofday}${week}${month}月${day}日`; //返回格式化后数据
     },
+    time: (val) => {
+      let time = val.split(":"); //以:为分隔切割时间
+      var hour = parseInt(time[0]); //取出时
+      var minute = parseInt(time[1]); //取出分
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
 .main {
-  background-color: #fff;
+  // background-color: #f0f0f0;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -257,6 +287,7 @@ export default {
   }
   .cinemaDetail {
     .cinema-info {
+      background-color: #fff;
       position: relative;
       padding: 15px 100px 15px 15px;
       h2 {
@@ -342,6 +373,7 @@ export default {
           overflow-x: auto;
           white-space: nowrap;
           .one {
+            // background-color: #fff;
             width: 65px;
             height: 95px;
             margin-left: 15px;
@@ -496,11 +528,15 @@ export default {
       .show-list {
         // 今日播放影片信息
         .item {
-          padding: 17px 12.5px;
+          padding: 5px 12.5px;
           position: relative;
           border: none;
+          background-color: #fff;
           .show-item {
             display: flex;
+            padding: 12px 0;
+            border-bottom: 1px solid #f3f3f3;
+            border-top: 1px solid #f3f3f3;
             .btn {
               // 购票
               width: 45px;
@@ -524,6 +560,10 @@ export default {
             .time {
               // 时间
               position: relative;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              flex-direction: column;
               .t {
                 // 18:00
                 font-size: 20px;
@@ -533,7 +573,7 @@ export default {
               }
               .b {
                 // 19:50散场
-                margin-top: 10px;
+                margin-top: 6px;
                 color: #999;
                 font-size: 11px;
                 line-height: 1;
@@ -608,6 +648,36 @@ export default {
               }
             }
           }
+        }
+      }
+      .nomore {
+        // 无
+        // color: red;
+        text-align: center;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -webkit-box-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        height: 210px;
+        // background-color: #f0f0f0;
+        .noimg {
+          display: inline-block;
+          margin: 50px auto 0;
+          width: 77.5px;
+          height: 71.5px;
+        }
+        .text {
+          // 今日场次已映完
+          margin-top: 12px;
+          line-height: 1;
+          font-size: 16px;
+          color: #acacac;
         }
       }
     }
