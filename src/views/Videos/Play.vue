@@ -1,4 +1,5 @@
 <template>
+  <!-- 小视频播放页 -->
   <div class="main">
     <div class="myvideo" @click="playornot">
       <div class="myvideoTop" @click="back">&lt;</div>

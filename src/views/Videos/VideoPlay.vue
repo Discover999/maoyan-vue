@@ -2,6 +2,7 @@
   <!-- 视频播放页面 -->
   <div class="main">
     <div class="videopage">
+      <div class="myvideoTop"><span @click="back">&lt;</span></div>
       <div class="vshow" v-if="VideoInfo">
         <div class="video">
           <video
@@ -98,6 +99,10 @@ export default {
       this.show = false;
       this.$refs.Video.play();
     },
+    back() {
+      // 返回上一页
+      this.$router.go(-1);
+    },
   },
   created() {
     this.id = this.$route.query.vid;
@@ -115,6 +120,20 @@ export default {
   height: 100vh;
   background: #f4f4f4;
   .videopage {
+    .myvideoTop {
+      position: absolute;
+      z-index: 1;
+      font-size: 24px;
+      font-family: "宋体";
+      font-weight: bold;
+      left: 0;
+      top: 0;
+      padding: 10px 10px;
+      width: 100%;
+      // background: rgba(0, 0, 0, 0.3);
+      background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
+      color: #fff;
+    }
     .vshow {
       .video {
         video {
@@ -125,7 +144,7 @@ export default {
           // 视频顶层遮罩
           display: flex;
           align-items: center;
-          z-index: 1;
+          z-index: 2;
           position: absolute;
           top: 0px;
           left: 0px;
@@ -136,7 +155,7 @@ export default {
           .playbtn {
             display: flex;
             align-items: center;
-            z-index: 2;
+            z-index: 3;
             position: absolute;
             top: 45%;
             left: 45%;
@@ -154,7 +173,7 @@ export default {
         position: relative;
         flex-direction: column;
         padding: 14px 16px;
-        z-index: 3;
+        z-index: 4;
         .title {
           // 标题样式
           color: #333;
