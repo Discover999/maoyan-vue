@@ -236,7 +236,7 @@
         </div>
 
         <!-- 演员 -->
-        <div class="actors">
+        <div class="actors" v-if="actorlist">
           <div class="title">
             <p>演职人员</p>
             <span
@@ -265,7 +265,7 @@
         </div>
 
         <!-- 视频推荐 -->
-        <div class="videos">
+        <div class="videos" v-if="videos">
           <div class="title">
             <p>视频推荐</p>
             <span
@@ -276,7 +276,7 @@
                 alt="右箭头"
             /></span>
           </div>
-          <div class="videos-list" v-if="videos">
+          <div class="videos-list">
             <ul>
               <li v-for="(item, index) in videos" :key="index">
                 <div class="videoimg">

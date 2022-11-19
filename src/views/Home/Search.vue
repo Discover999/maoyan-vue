@@ -25,7 +25,11 @@
     <div class="content" v-if="listdata">
       <div class="list">
         <ul>
-          <li v-for="item in listdata" :key="item.id">
+          <li
+            v-for="item in listdata"
+            :key="item.id"
+            @click="todetail(item.id)"
+          >
             <!-- 列左侧海报图 -->
             <div class="left">
               <div class="image">
@@ -75,6 +79,9 @@ export default {
         // console.log("搜索返回数据 => ", data);
         this.listdata = data;
       });
+    },
+    todetail(id) {
+      this.$router.push({ name: "MovieDetail", query: { id: id } });
     },
   },
   watch: {

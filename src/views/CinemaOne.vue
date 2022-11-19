@@ -9,9 +9,7 @@
           class="moviesList"
           v-for="item in topRatedMovies.movieList"
           :key="item.movieId"
-          @click="
-            $router.push({ name: 'MovieDetail', query: { id: item.movieId } })
-          "
+          @click="todetail(item.movieId)"
         >
           <div class="img">
             <img :src="item.poster" />
@@ -32,7 +30,7 @@
         class="item"
         v-for="item in MoreMovieList.movieList"
         :key="item.id"
-        @click="$router.push({ name: 'MovieDetail', query: { id: item.id } })"
+        @click="todetail(item.id)"
       >
         <!-- 项左图片 -->
         <div class="itemLeft">
@@ -112,6 +110,10 @@ export default {
     // 跳转购票页
     goticket(id) {
       this.$router.push({ name: "MovieTicket", query: { id: id } });
+    },
+    todetail(id) {
+      // 跳转电影详情页
+      this.$router.push({ name: "MovieDetail", query: { id: id } });
     },
   },
 
