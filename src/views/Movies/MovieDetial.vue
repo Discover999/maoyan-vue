@@ -391,12 +391,7 @@
       <div class="disclaimer">
         <p class="content">
           <span>影视行业信息</span>
-          <a
-            href="https://i.maoyan.com/terms/private?id=privacy_1629962927685"
-            class="link"
-            to="http://m.maoyan.com/terms/private?id=privacy_1629962927685"
-            >《免责声明》</a
-          >
+          <a>《免责声明》</a>
           <span>I 违法和不良信息举报电话：400601890</span>
         </p>
         <div class="bottom-logo">

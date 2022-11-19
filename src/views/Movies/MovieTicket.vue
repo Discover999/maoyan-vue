@@ -98,7 +98,12 @@
       <div class="show-cinema">
         <!-- 影院主体内容 -->
         <div v-if="cinemaList">
-          <div class="cinema" v-for="(item, index) in cinemaList" :key="index">
+          <div
+            class="cinema"
+            v-for="(item, index) in cinemaList"
+            :key="index"
+            @click="toCinema(item.id)"
+          >
             <!-- 影院详情条目 -->
             <div class="info">
               <h3>{{ item.name }}</h3>
@@ -304,6 +309,9 @@ export default {
     becomeeid(id) {
       this.serviceid = id;
       this.getShowCinemasFun();
+    },
+    toCinema(cid) {
+      this.$router.push({ name: "CinemaDetail", query: { id: cid } });
     },
   },
   created() {

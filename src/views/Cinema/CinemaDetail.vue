@@ -12,10 +12,22 @@
     </div>
     <div class="cinemaDetail" v-if="cinemaDetail">
       <!-- 顶部地址部分 -->
-      <div class="cinema-info" @click="goInfo(cinemaDetail.cinemaId)">
-        <h2>{{ cinemaDetail.nm }}</h2>
-        <p class="addr">{{ cinemaDetail.addr }}</p>
-        <div class="local-icon">
+      <div class="cinema-info">
+        <div @click="goInfo(cinemaDetail.cinemaId)">
+          <h2>{{ cinemaDetail.nm }}</h2>
+          <p class="addr">{{ cinemaDetail.addr }}</p>
+        </div>
+        <div
+          class="local-icon"
+          @click="
+            tomap(
+              cinemaDetail.lat,
+              cinemaDetail.lng,
+              cinemaDetail.nm,
+              cinemaDetail.addr
+            )
+          "
+        >
           <img src="@/assets/img/position.png" alt="" />
         </div>
       </div>
@@ -101,10 +113,10 @@
                 <div class="local">{{ item.th }}</div>
               </div>
               <!-- 价格 -->
-              <div class="price">
+              <div class="price" v-if="item.sellPr">
                 <span class="ico">￥</span>
                 <div class="p">{{ item.sellPr }}</div>
-                <div class="car">
+                <div class="car" v-if="item.vipPrice">
                   <span class="tag">{{ item.vipPriceName }}</span>
                   <span class="pri">￥{{ item.vipPrice }}</span>
                 </div>
@@ -178,7 +190,7 @@ export default {
       }).then((data) => {
         this.cinemaDetail = data.data;
         this.vipInfo = this.cinemaDetail.vipInfo;
-        console.log("影院数据 => ", this.cinemaDetail);
+        // console.log("影院数据 => ", this.cinemaDetail);
         // console.log("优惠 => ", this.vipInfo);
       });
     },
@@ -201,6 +213,19 @@ export default {
     },
     goInfo(cid) {
       this.$router.push({ name: "CinemaInfo", query: { cid: cid } });
+    },
+    tomap(lat, lng, nm, addr) {
+      // 查看影院位置
+      window.location.href =
+        "https://apis.map.qq.com/uri/v1/marker?marker=coord:" +
+        lat +
+        "," +
+        lng +
+        ";title:" +
+        nm +
+        ";addr:" +
+        addr +
+        "&referer=wepiao";
     },
   },
   created() {

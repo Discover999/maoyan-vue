@@ -128,11 +128,14 @@ export default {
       font-weight: bold;
       left: 0;
       top: 0;
-      padding: 10px 10px;
+      padding: 10px 0;
       width: 100%;
       // background: rgba(0, 0, 0, 0.3);
       background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0));
       color: #fff;
+      span{
+        margin-left: 10px;
+      }
     }
     .vshow {
       .video {
