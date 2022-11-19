@@ -12,7 +12,7 @@ import MyMine from '../views/Mine/MyMine.vue'
 import Login from '../views/Mine/Login.vue'
 import MovieTicket from '../views/Movies/MovieTicket.vue'
 import CinemaDetail from '../views/Cinema/CinemaDetail.vue'
-
+import CinemaInfo from '../views/Cinema/CinemaInfo.vue'
 
 Vue.use(VueRouter)
 
@@ -70,10 +70,16 @@ const routes = [
     component: MovieDetail,
   },
   {
-    // 电影详情页
+    // 影院详情页
     path: '/cinemadetail',
     name: "CinemaDetail",
     component: CinemaDetail,
+  },
+  {
+    // 影院信息页
+    path: '/cinemainfo',
+    name: "CinemaInfo",
+    component: CinemaInfo,
   },
   {
     // 电影购票页

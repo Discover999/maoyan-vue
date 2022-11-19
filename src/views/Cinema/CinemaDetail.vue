@@ -12,7 +12,7 @@
     </div>
     <div class="cinemaDetail" v-if="cinemaDetail">
       <!-- 顶部地址部分 -->
-      <div class="cinema-info">
+      <div class="cinema-info" @click="goInfo(cinemaDetail.cinemaId)">
         <h2>{{ cinemaDetail.nm }}</h2>
         <p class="addr">{{ cinemaDetail.addr }}</p>
         <div class="local-icon">
@@ -178,7 +178,7 @@ export default {
       }).then((data) => {
         this.cinemaDetail = data.data;
         this.vipInfo = this.cinemaDetail.vipInfo;
-        // console.log("影院数据 => ", this.cinemaDetail);
+        console.log("影院数据 => ", this.cinemaDetail);
         // console.log("优惠 => ", this.vipInfo);
       });
     },
@@ -198,6 +198,9 @@ export default {
         // console.log("正在上映电影 => ", this.cinemaShow);
         // console.log("电影列表 => ", this.movieList);
       });
+    },
+    goInfo(cid) {
+      this.$router.push({ name: "CinemaInfo", query: { cid: cid } });
     },
   },
   created() {
