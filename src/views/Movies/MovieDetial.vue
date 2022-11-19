@@ -446,6 +446,7 @@ export default {
         this.mrate = data.distribution; //评分等级数据
         this.pictures = data.movie.photos; //剧照
         this.videos = data.feedVideos.feeds; //视频
+        // console.log(this.videos);
         this.newslist = data.newsList.newsList; //相关快讯
       });
     },
@@ -828,6 +829,7 @@ export default {
                 white-space: nowrap;
                 overflow: hidden;
                 font-size: 12px;
+                width: 80px;
               }
               span {
                 display: block;
