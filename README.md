@@ -22,15 +22,7 @@ Vue2.6 + Vuex + Vue Router + axios + less + vant
 
 ## 项目演示
 
-<img src="src/Screenshot/m1.png" width="260px">
-<img src="src/Screenshot/m2.png" width="260px">
-<img src="src/Screenshot/m3.png" width="260px">
-<img src="src/Screenshot/m4.png" width="260px">
-<img src="src/Screenshot/m5.png" width="260px">
-<img src="src/Screenshot/m6.png" width="260px">
-<img src="src/Screenshot/m7.png" width="260px">
-<img src="src/Screenshot/m8.png" width="260px">
-<img src="src/Screenshot/m9.png" width="260px">
+<img src="src/Screenshot/m1.png" width="260px"> <img src="src/Screenshot/m2.png" width="260px"> <img src="src/Screenshot/m3.png" width="260px"> <img src="src/Screenshot/m4.png" width="260px"> <img src="src/Screenshot/m5.png" width="260px"> <img src="src/Screenshot/m6.png" width="260px"> <img src="src/Screenshot/m7.png" width="260px"> <img src="src/Screenshot/m8.png" width="260px"> <img src="src/Screenshot/m9.png" width="260px">
 
 ## 说明
 
