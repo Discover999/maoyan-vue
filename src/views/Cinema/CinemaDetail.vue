@@ -116,7 +116,8 @@
               <div class="price" v-if="item.sellPr">
                 <span class="ico">￥</span>
                 <!-- <div class="p">{{ item.sellPr }}</div> -->
-                <div class="p">{{ item.baseSellPrice }}</div>
+                <!-- <div class="p">{{ item.baseSellPrice }}</div> -->
+                <div class="p">{{ item.discountSellPrice }}</div>
                 <div class="car" v-if="item.vipPrice">
                   <span class="tag">{{ item.vipPriceName }}</span>
                   <span class="pri">￥{{ item.vipPrice }}</span>
