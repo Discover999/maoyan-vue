@@ -9,6 +9,9 @@
   [![Vue.js](https://img.shields.io/badge/-Vue.js-4FC08D?style=plastic&logo=vue.js)](https://v2.cn.vuejs.org/)
   [![VSCode](https://img.shields.io/badge/-VSCode-007ACC?style=plastic&logo=visual-studio-code)](https://code.visualstudio.com/)
 
+## 预览地址
+ [仿猫眼电影Web端](https://maoyan-vue.vercel.app/)
+
 ## 如何使用
 
     git clone https://github.com/Discover999/maoyan-vue.git
@@ -18,7 +21,7 @@
 
 ## 技术栈
 
-Vue2.6 + Vuex + Vue Router + axios + less + vant
+Vue3 + Vuex + Vue Router + axios + less + vant
 
 ## 项目演示
 
