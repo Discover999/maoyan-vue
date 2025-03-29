@@ -409,12 +409,14 @@
 </template>
   
 <script>
+import axios from 'axios'; // 添加 axios 导入
 import { getMovieDetail } from "@/api/detail";
 import Loading from "@/components/Loding.vue";
 
 export default {
   data() {
     return {
+      feeds: [], // 初始化 feeds 为一个空数组
       showpage: false,
       movieId: null, // 电影ID值
       isloading: true, //页面加载提示
@@ -461,6 +463,16 @@ export default {
     goticket(id) {
       this.$router.push({ name: "MovieTicket", query: { id: id } });
     },
+    fetchFeeds() {
+      // 示例 API 调用
+      axios.get('/api/feeds')
+        .then(response => {
+          this.feeds = response.data;
+        })
+        .catch(error => {
+          console.error('Error fetching feeds:', error);
+        });
+    },
   },
   created() {
     this.movieId = this.$route.query.id; //获取传来的id值
@@ -473,7 +485,10 @@ export default {
       this.isloading = false;
     }
   },
-  mounted() {},
+  mounted() {
+    // 确保在 API 调用后正确赋值 feeds
+    this.fetchFeeds();
+  },
   components: { Loading },
 
   // 实现整数三位一分隔
@@ -727,6 +742,9 @@ export default {
                 .rank {
                   display: flex;
                   flex: 1;
+                  line-clamp: 1; /* Standard property for compatibility */
+                  -webkit-line-clamp: 1; /* For WebKit browsers */
+                  -webkit-box-orient: vertical; /* Required for WebKit line-clamp */
                   font: 14px;
                   color: #fff;
                   position: absolute;
@@ -838,7 +856,7 @@ export default {
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 overflow: hidden;
-                width: 100%;
+                width: 80px;
                 font-size: 12px;
               }
             }

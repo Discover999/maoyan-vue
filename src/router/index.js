@@ -1,6 +1,5 @@
 // 导入
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue'
 import MovieDetail from '../views/Movies/MovieDetial.vue'
 import Video from '../views/Videos/Video.vue'
@@ -13,15 +12,6 @@ import Login from '../views/Mine/Login.vue'
 import MovieTicket from '../views/Movies/MovieTicket.vue'
 import CinemaDetail from '../views/Cinema/CinemaDetail.vue'
 import CinemaInfo from '../views/Cinema/CinemaInfo.vue'
-
-Vue.use(VueRouter)
-
-//获取原型对象上的push函数
-const originalPush = VueRouter.prototype.push
-//修改原型对象中的push方法
-VueRouter.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
-}
 
 // 全局路由配置
 const routes = [
@@ -182,10 +172,9 @@ const routes = [
   },
 ];
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
-})
+const router = createRouter({
+  history: createWebHistory(),
+  routes,
+});
 
-export default router
+export default router;

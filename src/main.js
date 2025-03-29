@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import { createApp } from 'vue';
+import App from './App.vue';
+import router from './router';
+import store from './store';
 // 引入iconfont样式
 import "./assets/font/iconfont.css"
 // 引入vant中的组件
@@ -17,22 +17,20 @@ import { Loading } from 'vant';
 
 // import 'vant/lib/index.css'
 
-Vue.config.productionTip = false
-Vue.use(Toast);
-Vue.use(Cell);
-Vue.use(CellGroup);
-Vue.use(IndexBar);
-Vue.use(IndexAnchor);
-Vue.use(Tab);
-Vue.use(Tabs);
-Vue.use(TreeSelect);
-Vue.use(Icon);
-Vue.use(Dialog);
-Vue.use(List);
-Vue.use(Loading);
+const app = createApp(App);
+app.use(router);
+app.use(store);
+app.use(Toast);
+app.use(Cell);
+app.use(CellGroup);
+app.use(IndexBar);
+app.use(IndexAnchor);
+app.use(Tab);
+app.use(Tabs);
+app.use(TreeSelect);
+app.use(Icon);
+app.use(Dialog);
+app.use(List);
+app.use(Loading);
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+app.mount('#app');
