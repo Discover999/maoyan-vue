@@ -467,10 +467,11 @@ export default {
       // 示例 API 调用
       axios.get('/api/feeds')
         .then(response => {
-          this.feeds = response.data;
+          this.feeds = response.data || []; // Assign response data or fallback to an empty array
         })
         .catch(error => {
           console.error('Error fetching feeds:', error);
+          this.feeds = []; // Fallback to an empty array in case of error
         });
     },
   },
@@ -486,8 +487,7 @@ export default {
     }
   },
   mounted() {
-    // 确保在 API 调用后正确赋值 feeds
-    this.fetchFeeds();
+    this.fetchFeeds(); // Ensure fetchFeeds is called during component mounting
   },
   components: { Loading },
 
