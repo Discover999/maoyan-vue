@@ -88,7 +88,7 @@ import "@/assets/font/iconfont.css";
 export default {
   name: "MoviesVideo",
   data() {
-    console.log("传入数据 =>>",this.$route.query); //输出调试
+    // console.log("传入数据 =>>",this.$route.query); //输出调试
     return {
       // 尝试从路由 query 中读取视频信息；在没有时提供默认占位
       videoUrl: this.$route.query.videoUrl || "",

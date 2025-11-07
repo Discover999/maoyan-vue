@@ -77,7 +77,7 @@
               :class="index == dateselect ? 'dateselect' : ''"
               @click="selectDate(index, item)"
             >
-              <span>{{ item.showDate | date }}</span>
+              <span>{{ item.showDate }}</span>
             </div>
           </div>
         </div>

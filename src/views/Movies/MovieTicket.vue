@@ -70,7 +70,7 @@
               :key="index"
               @click="selectNav(index, item.date)"
             >
-              <span>{{ item.date | date }}</span>
+              <span>{{ item.date }}</span>
             </div>
           </div>
         </div>
