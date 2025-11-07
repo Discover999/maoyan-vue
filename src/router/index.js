@@ -2,6 +2,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue'
 import MovieDetail from '../views/Movies/MovieDetial.vue'
+import MoviesVideo from '../views/Movies/MoviesVideo.vue'
 import Video from '../views/Videos/Video.vue'
 import ShortVideo from '../views/Videos/ShortVideo.vue'
 import VideoPlay from '../views/Videos/Play.vue'
@@ -58,6 +59,12 @@ const routes = [
     path: '/moviedetail',
     name: "MovieDetail",
     component: MovieDetail,
+  },
+  {
+    // 电影-视频播放页（推荐视频播放）
+    path: '/movies/video',
+    name: 'MoviesVideo',
+    component: MoviesVideo,
   },
   {
     // 影院详情页

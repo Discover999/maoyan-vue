@@ -278,7 +278,7 @@
           </div>
           <div class="videos-list">
             <ul>
-              <li v-for="(item, index) in videos" :key="index">
+              <li v-for="(item, index) in videos" :key="index" @click="gotoVideo(item, index)" style="cursor: pointer;">
                 <div class="videoimg">
                   <img class="poster" :src="item.video.imgUrl" />
                   <img
@@ -307,9 +307,18 @@
           <div class="photos-list">
             <ul>
               <li v-for="(item, index) in pictures" :key="index">
-                <img :src="item" />
+                <img :src="item" @click="openPhoto(index)" style="cursor: pointer;" />
               </li>
             </ul>
+          </div>
+          <!-- 图片查看器模态 -->
+          <div class="photo-modal" v-if="showPhotoModal" @click.self="closePhoto">
+            <div class="photo-modal-inner">
+              <button class="close-btn" @click="closePhoto">×</button>
+              <button class="nav left" @click.stop="prevPhoto">‹</button>
+              <img :src="pictures[currentPhotoIndex]" alt="photo" />
+              <button class="nav right" @click.stop="nextPhoto">›</button>
+            </div>
           </div>
         </div>
       </div>
@@ -430,6 +439,9 @@ export default {
       newslist: null, //相关资讯
       videos: null, //视频
       pictures: null, //剧照
+      // 图片查看器
+      showPhotoModal: false,
+      currentPhotoIndex: 0,
     };
   },
   methods: {
@@ -473,6 +485,53 @@ export default {
           console.error('Error fetching feeds:', error);
           this.feeds = []; // Fallback to an empty array in case of error
         });
+    },
+    // 打开图片查看器
+    openPhoto(index) {
+      this.currentPhotoIndex = index;
+      this.showPhotoModal = true;
+    },
+    // 关闭图片查看器
+    closePhoto() {
+      this.showPhotoModal = false;
+    },
+    // 上一张
+    prevPhoto() {
+      if (!this.pictures || this.pictures.length === 0) return;
+      this.currentPhotoIndex = (this.currentPhotoIndex - 1 + this.pictures.length) % this.pictures.length;
+    },
+    // 下一张
+    nextPhoto() {
+      if (!this.pictures || this.pictures.length === 0) return;
+      this.currentPhotoIndex = (this.currentPhotoIndex + 1) % this.pictures.length;
+    },
+    // 跳转到视频播放页面（MoviesVideo）
+    gotoVideo(item, index) {
+      // 取常用字段，防止字段不存在使用空字符串或备用值
+      const videoObj = item && item.video ? item.video : {};
+      const videoUrl = videoObj.url || videoObj.playUrl || videoObj.mainUrl || videoObj.rawUrl || "";
+      const poster = videoObj.imgUrl || "";
+      const title = item.title || videoObj.title || this.movieInfo && this.movieInfo.nm || "视频推荐";
+      const desc = item.summary || item.desc || "";
+      const comments = item.commentCount || 0;
+      const wish = this.movieInfo && this.movieInfo.wish ? this.movieInfo.wish : 0;
+      const date = this.movieInfo && this.movieInfo.onlineDate ? this.movieInfo.onlineDate : "";
+      const duration = this.movieInfo && this.movieInfo.dur ? this.movieInfo.dur : "";
+
+      this.$router.push({
+        name: 'MoviesVideo',
+        query: {
+          videoUrl,
+          poster,
+          title,
+          desc,
+          comments,
+          wish,
+          date,
+          duration,
+          index: index,
+        },
+      });
     },
   },
   created() {
@@ -1155,4 +1214,63 @@ export default {
     }
   }
 }
+</style>
+
+/* 图片查看器样式 */
+<style scoped>
+.photo-modal {
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.photo-modal-inner {
+  position: relative;
+  max-width: 95%;
+  max-height: 95%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-modal-inner img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+}
+.photo-modal .close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+.photo-modal .nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.35);
+  border: none;
+  color: #fff;
+  font-size: 28px;
+  width: 44px;
+  height: 64px;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.photo-modal .nav.left { left: 12px; }
+.photo-modal .nav.right { right: 12px; }
 </style>
