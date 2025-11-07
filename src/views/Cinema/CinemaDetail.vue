@@ -105,7 +105,7 @@
               <!-- 时间 -->
               <div class="time">
                 <div class="t">{{ item.tm }}</div>
-                <div class="b">{{ item.tm }}散场</div>
+                <div class="b">{{ endTime(item.tm) }}散场</div>
               </div>
               <!-- 播放信息 -->
               <div class="info">
@@ -228,6 +228,31 @@ export default {
         ";addr:" +
         addr +
         "&referer=wepiao";
+    },
+    endTime(tm) {
+      // 计算散场时间：开始时间 tm ("hh:mm") + 影片时长 this.selectShow.dur (分钟)
+      if (!tm) return "";
+      const parts = tm.split(":");
+      if (parts.length < 2) return "";
+      const h = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      if (isNaN(h) || isNaN(m)) return "";
+
+      // 优先使用 selectShow.dur，其次使用 moviedur，最终回退到 0
+      let dur = 0;
+      if (this.selectShow && this.selectShow.dur != null) {
+        dur = parseInt(this.selectShow.dur, 10);
+      } else if (this.moviedur != null) {
+        dur = parseInt(this.moviedur, 10);
+      }
+      if (isNaN(dur)) dur = 0;
+
+      let total = h * 60 + m + dur;
+      // 允许跨天，取模 24 小时
+      total = ((total % (24 * 60)) + 24 * 60) % (24 * 60);
+      const hh = Math.floor(total / 60);
+      const mm = total % 60;
+      return String(hh).padStart(2, "0") + ":" + String(mm).padStart(2, "0");
     },
   },
   created() {
