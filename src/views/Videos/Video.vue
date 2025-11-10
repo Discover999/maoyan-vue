@@ -11,12 +11,22 @@
     <!-- 顶部选项卡 -->
     <div class="topselect">
       <div class="select1">
-        <div @click="govideo">推荐</div>
-        <div @click="govideo2">热片解读</div>
-        <div @click="govideo3">新片预告</div>
-        <div @click="govideo4">速看电影</div>
-        <div @click="govideo5">剧集综艺</div>
-        <span></span>
+        <div 
+          @click="govideo"
+          :class="{ 'active': moveIndex === 0 }"
+          ref="tab0"
+        >推荐</div>
+        <div 
+          @click="govideo2"
+          :class="{ 'active': moveIndex === 1 }"
+          ref="tab1"
+        >热片解读</div>
+        <div 
+          @click="govideo3"
+          :class="{ 'active': moveIndex === 2 }"
+          ref="tab2"
+        >新片预告</div>
+        <span :style="{ left: indicatorLeft + 'px', width: indicatorWidth + 'px' }"></span>
       </div>
     </div>
 
@@ -32,30 +42,76 @@ export default {
   data() {
     return {
       VideoList: null,
+      moveIndex: 0, // 当前选中的选项索引
+      indicatorLeft: 6, // 红色指示器的左偏移
+      indicatorWidth: 20, // 红色指示器的宽度
     };
   },
   methods: {
+    // 更新指示器位置
+    updateIndicator(index) {
+      try {
+        const tabRef = this.$refs[`tab${index}`];
+        if (!tabRef) return;
+        const el = tabRef instanceof Array ? tabRef[0] : tabRef;
+        const container = el.parentElement;
+        const elRect = el.getBoundingClientRect();
+        const contRect = container.getBoundingClientRect();
+        const elLeft = elRect.left - contRect.left;
+        const elWidth = elRect.width;
+        // 让指示器居中于文字下方
+        const left = elLeft + (elWidth - this.indicatorWidth) / 2;
+        this.indicatorLeft = Math.round(left);
+      } catch (e) {
+        // 忽略错误
+      }
+    },
     // 推荐
     govideo() {
+      this.moveIndex = 0;
       this.$router.push("/videos/recommend");
+      this.$nextTick(() => this.updateIndicator(this.moveIndex));
     },
     // 热片解读
     govideo2() {
+      this.moveIndex = 1;
       this.$router.push("/videos/hot");
+      this.$nextTick(() => this.updateIndicator(this.moveIndex));
     },
     // 新片预告
     govideo3() {
+      this.moveIndex = 2;
       this.$router.push("/videos/coming");
+      this.$nextTick(() => this.updateIndicator(this.moveIndex));
     },
-    // 速看电影
-    govideo4() {
-      this.$router.push("/videos/sukan");
-    },
-    // 剧集综艺
-    govideo5() {
-      this.$router.push("/videos/zongyi");
-    },
+    // 其他导航方法已删除
   },
+  mounted() {
+    // 根据当前路由初始化选中项
+    const path = this.$route.path;
+    if (path.includes('/videos/recommend')) this.moveIndex = 0;
+    else if (path.includes('/videos/hot')) this.moveIndex = 1;
+    else if (path.includes('/videos/coming')) this.moveIndex = 2;
+
+    this.$nextTick(() => this.updateIndicator(this.moveIndex));
+
+    // 监听窗口大小变化，重新计算指示器位置
+    this._onResize = () => this.$nextTick(() => this.updateIndicator(this.moveIndex));
+    window.addEventListener('resize', this._onResize);
+  },
+  beforeDestroy() {
+    if (this._onResize) window.removeEventListener('resize', this._onResize);
+  },
+  watch: {
+    // 监听路由变化，更新选中项
+    '$route'(to) {
+      const path = to.path;
+      if (path.includes('/videos/recommend')) this.moveIndex = 0;
+      else if (path.includes('/videos/hot')) this.moveIndex = 1;
+      else if (path.includes('/videos/coming')) this.moveIndex = 2;
+      this.$nextTick(() => this.updateIndicator(this.moveIndex));
+    }
+  }
 };
 </script>
     
@@ -82,7 +138,7 @@ export default {
 // 顶部视频推荐选项
 .topselect {
   display: flex;
-  height: 48px;
+  height: 45px;
   border-bottom: 1px solid #e6e6e6;
   justify-content: space-between;
   align-items: center;
@@ -90,20 +146,34 @@ export default {
 
   .select1 {
     display: flex;
-    color: #333;
+    color: #666;
     flex: 1;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 18px;
     font-size: 15px;
     position: relative;
     margin-left: 3px;
 
+    div {
+      position: relative;
+      padding: 0 5px;
+      transition: all 0.3s;
+      cursor: pointer;
+      
+      &.active {
+        color: #333;
+        font-size: 16px;
+        font-weight: bold;
+      }
+    }
+
     span {
       position: absolute;
       background: #f03d37;
-      width: 20px;
       height: 3.2px;
       bottom: -7px;
-      left: 6px;
+      left: 0;
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
     }
   }
 }
