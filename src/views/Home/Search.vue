@@ -17,7 +17,7 @@
           class="input"
           placeholder="搜电影、搜影院"
         />
-        <span class="cancel">取消</span>
+        <span class="cancel" @click="toHome">取消</span>
       </div>
     </div>
 
@@ -82,6 +82,10 @@ export default {
     },
     todetail(id) {
       this.$router.push({ name: "MovieDetail", query: { id: id } });
+    },
+    // 返回首页
+    toHome() {
+      this.$router.push("/");
     },
   },
   watch: {

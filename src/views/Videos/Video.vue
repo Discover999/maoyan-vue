@@ -265,17 +265,50 @@ export default {
           font-size: 14px;
         }
       }
-      // 右侧信息
-      .video-praise {
+      // 右侧信息容器
+      .video-info-right {
         display: flex;
-        margin-right: 20px;
         align-items: center;
-        color: #000;
-        font-size: 12px;
-        img {
-          width: 18px;
-          height: 18px;
-          padding: 0 5px;
+        margin-right: 15px;
+
+        // 点赞数
+        .video-praise {
+          display: flex;
+          margin-right: 15px;
+          align-items: center;
+          color: #000;
+          font-size: 12px;
+          img {
+            width: 18px;
+            height: 18px;
+            padding: 0 5px;
+          }
+        }
+
+        // 评论数
+        .video-comment {
+          display: flex;
+          margin-right: 15px;
+          align-items: center;
+          color: #333;
+          font-size: 12px;
+          img {
+            width: 18px;
+            height: 18px;
+            padding: 0 5px;
+          }
+        }
+
+        // 分享图标
+        .video-share {
+          display: flex;
+          align-items: center;
+          margin-left: 5px;
+          img {
+            width: 18px;
+            height: 18px;
+            padding: 0 5px;
+          }
         }
       }
     }

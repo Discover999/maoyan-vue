@@ -16,12 +16,7 @@
         v-for="item in ShortVideoList"
         :key="item.id"
         :style="{ 'background-image': 'url(' + item.images[0].url + ')' }"
-        @click="
-          $router.push({
-            name: 'VideoPlay',
-            query: { id: item.video.id, url: item.video.url },
-          })
-        "
+        @click="toVideoPlay(item)"
       >
         <p>{{ item.title }}</p>
 
@@ -62,6 +57,20 @@ export default {
       getShortVideo().then((data) => {
         this.ShortVideoList = data.data.feeds;
         // console.log("小视频api ==>", this.ShortVideoList);
+      });
+    },
+    toVideoPlay(item) {
+      this.$router.push({
+        name: 'VideoPlay',
+        query: {
+          id: item.video.id,
+          url: item.video.url,
+          title: item.title,
+          userName: item.user.nickName,
+          userAvatar: item.user.avatarurl,
+          upCount: item.upCount,
+          commentCount: item.commentCount || 0
+        }
       });
     },
   },

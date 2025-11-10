@@ -36,6 +36,10 @@
         <van-icon name="arrow" />
       </div>
     </div>
+    <!-- 版权信息 -->
+    <div class="copyright">
+      ©猫眼电影
+    </div>
     <!-- 底部导航栏 -->
     <tab-bar></tab-bar>
   </div>
@@ -256,6 +260,19 @@ export default {
         color: #cdcdcd;
       }
     }
+  }
+  
+  .copyright {
+    position: fixed;
+    bottom: 80px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #999;
+    font-size: 13px;
+    padding: 10px 0;
+    background-color: #f4f4f4;
+    z-index: 1;
   }
 }
 </style>

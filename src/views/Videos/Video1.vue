@@ -19,7 +19,7 @@
           <div class="time" v-if="item.video">
             <!-- 视频时间长度 -->
             {{ parseInt(item.video.dur / 60) }}:{{
-              parseInt(item.video.dur % 60) &lt; 10
+              parseInt(item.video.dur % 60) < 10
                 ? "0" + parseInt(item.video.dur % 60)
                 : parseInt(item.video.dur % 60)
             }}
@@ -35,9 +35,18 @@
           </div>
 
           <!-- 底部右侧信息 -->
-          <div class="video-praise">
-            <img src="@/assets/img/video-praise.png" alt="" />
-            {{ item.upCount }}
+          <div class="video-info-right">
+            <div class="video-praise">
+              <img src="@/assets/img/video-praise.png" alt="" />
+              {{ item.upCount }}
+            </div>
+            <div class="video-comment">
+              <img src="@/assets/img/comment.png" alt="" />
+              {{ item.commentCount }}
+            </div>
+            <div class="video-share">
+              <img src="@/assets/img/video-share.png" alt="" />
+            </div>
           </div>
         </div>
       </div>
