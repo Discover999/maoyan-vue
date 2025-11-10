@@ -33,29 +33,33 @@
           <div
             @click="gochange1"
             :class="{ 'router-link-active': moveIndex == 0 }"
+            ref="tab0"
           >
             热映
           </div>
           <div
             @click="gochange2"
             :class="{ 'router-link-active': moveIndex == 1 }"
+            ref="tab1"
           >
             影院
           </div>
           <div
             @click="gochange3"
             :class="{ 'router-link-active': moveIndex == 2 }"
+            ref="tab2"
           >
             待映
           </div>
-          <div
+          <!-- <div
             @click="gochange4"
             :class="{ 'router-link-active': moveIndex == 3 }"
+            ref="tab3"
           >
             经典电影
-          </div>
+          </div> -->
 
-          <span :style="{ left: 56 * moveIndex + 5 + 'px' }"></span>
+          <span :style="{ left: indicatorLeft + 'px', width: indicatorWidth + 'px' }"></span>
         </div>
         <!-- 搜索 -->
         <span class="search iconfont icon-fangdajing" @click="gosearch"></span>
@@ -79,28 +83,35 @@ export default {
     return {
       moveIndex: 0,
       active: 1, // 当前激活的导航索引
+      // 指示器位置与宽度（px），由 DOM 计算
+      indicatorLeft: 0,
+      indicatorWidth: 24,
     };
   },
   methods: {
     // 热映
     gochange1() {
-      (this.moveIndex = 0), this.$router.push("/index/one");
-      // console.log(this.$router.push("/index/one"));
+      this.moveIndex = 0;
+      this.$router.push("/index/one");
+      this.$nextTick(() => this.updateIndicator(this.moveIndex));
     },
     // 影院
     gochange2() {
-      (this.moveIndex = 1), this.$router.push("/index/two");
-      // console.log(this.$router.push("/index/two"));
+      this.moveIndex = 1;
+      this.$router.push("/index/two");
+      this.$nextTick(() => this.updateIndicator(this.moveIndex));
     },
     // 待映
     gochange3() {
-      (this.moveIndex = 2), this.$router.push("/index/three");
-      // console.log(this.$router.push("/index/three"));
+      this.moveIndex = 2;
+      this.$router.push("/index/three");
+      this.$nextTick(() => this.updateIndicator(this.moveIndex));
     },
     // 经典电影
     gochange4() {
-      (this.moveIndex = 3), this.$router.push("/index/four");
-      // console.log(this.$router.push("/index/four"));
+      this.moveIndex = 3;
+      this.$router.push("/index/four");
+      this.$nextTick(() => this.updateIndicator(this.moveIndex));
     },
     // 城市列表
     gocity() {
@@ -109,6 +120,45 @@ export default {
     // 搜索页
     gosearch() {
       this.$router.push("/search");
+    },
+    // 计算指示器位置并更新 indicatorLeft/indicatorWidth
+    updateIndicator(index) {
+      try {
+        const tabRef = this.$refs[`tab${index}`];
+        if (!tabRef) return;
+        const el = tabRef instanceof Array ? tabRef[0] : tabRef;
+        // 计算相对于 .cinema 容器的左偏移
+        const container = el.parentElement;
+        const elRect = el.getBoundingClientRect();
+        const contRect = container.getBoundingClientRect();
+        const elLeft = elRect.left - contRect.left;
+        const elWidth = elRect.width;
+        // 让指示器宽度固定或跟随文字宽度（目前居中并固定宽度 indicatorWidth）
+        const left = elLeft + (elWidth - this.indicatorWidth) / 2;
+        this.indicatorLeft = Math.round(left);
+      } catch (e) {
+        // 忽略错误
+      }
+    },
+  },
+  mounted() {
+    // 初始化 moveIndex（依据当前路由）并计算指示器位置
+    const p = this.$route && this.$route.path ? this.$route.path : "";
+    if (p.includes("/index/one")) this.moveIndex = 0;
+    else if (p.includes("/index/two")) this.moveIndex = 1;
+    else if (p.includes("/index/three")) this.moveIndex = 2;
+    else if (p.includes("/index/four")) this.moveIndex = 3;
+    this.$nextTick(() => this.updateIndicator(this.moveIndex));
+
+    this._onResize = () => this.$nextTick(() => this.updateIndicator(this.moveIndex));
+    window.addEventListener("resize", this._onResize);
+  },
+  beforeDestroy() {
+    if (this._onResize) window.removeEventListener("resize", this._onResize);
+  },
+  watch: {
+    moveIndex(newVal) {
+      this.$nextTick(() => this.updateIndicator(newVal));
     },
   },
 };
@@ -218,15 +268,16 @@ export default {
       flex: 1;
       justify-content: space-between;
       font-size: 15px;
-      font-weight: bold;
+      font-weight: normal;
       position: relative;
-      margin-left: 20px;
+      margin: 50px;
+      
       // 激活(选中)项样式
-      // .active {
-      //   font-size: large;
-      //   color: #333333;
-      //   border-bottom: 3.5px solid #f03d37;
-      // }
+      .router-link-active {
+        color: #333333;
+        font-weight: bold;
+        font-size: 16px;
+      }
 
       span {
         position: absolute;
@@ -234,7 +285,7 @@ export default {
         width: 24px;
         height: 3px;
         bottom: -7px;
-        left: 4px;
+        left: 0;
         transition: 0.25s;
       }
     }

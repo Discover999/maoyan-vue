@@ -35,12 +35,11 @@
 export default {
   data() {
     return {
-      isSelect: 1, //默认选项
+      // isSelect moved to computed property to follow current route
     };
   },
   methods: {
     selectNav(title) {
-      this.isSelect = title;
       // 选项卡点击切换
       switch (title) {
         case 1:
@@ -56,6 +55,19 @@ export default {
           this.$router.push("/mine");
           break;
       }
+    },
+  },
+  computed: {
+    isSelect() {
+      const path = this.$route && this.$route.path ? this.$route.path : "";
+      const name = this.$route && this.$route.name ? this.$route.name : "";
+      // 按路径或路由名映射到选项索引
+      if (path === "/" || name === "Home") return 1;
+      if (path.startsWith("/videos") || name === "Videos") return 2;
+      if (path.startsWith("/video") || name === "Video") return 3;
+      if (path.startsWith("/mine") || name === "Mine") return 4;
+      // 默认回退到电影/影院
+      return 1;
     },
   },
 };

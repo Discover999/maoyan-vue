@@ -73,7 +73,7 @@ export default {
       // 关于弹窗
       Dialog.alert({
         // title: "标题",
-        message: "基于Vue2开发的仿猫眼App\n项目仅供交流学习\n",
+        message: "基于Vue3开发的仿猫眼移动端网页App\n项目仅供交流学习\n",
       }).then(() => {
         // on close
       });

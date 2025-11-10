@@ -67,11 +67,11 @@
           <div
             class="buy"
             v-if="item.showStateButton.content != '预售'"
-            @click="goticket(item.id)"
+            @click.stop="goticket(item.id)"
           >
             购票
           </div>
-          <div class="presale" v-else @click="goticket(item.id)">预售</div>
+          <div class="presale" v-else @click.stop="goticket(item.id)">预售</div>
         </div>
       </div>
     </div>
