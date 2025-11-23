@@ -4,7 +4,7 @@
     <div class="player-container" @click="playornot">
       <!-- 顶部导航栏 -->
       <div class="nav-bar" @click.stop="back">
-        <span class="back-btn">&lt;</span>
+        <van-icon name="arrow-left" class="back-btn" @click.stop="back" />
       </div>
 
       <!-- 视频播放器 -->

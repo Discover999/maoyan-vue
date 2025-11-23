@@ -177,6 +177,18 @@ const routes = [
       }
     }
   },
+  {
+    // 我的 => 商城订单列表
+    path: '/orderlist',
+    name: 'orderlist',
+    component: () => import('../views/Mine/orderlist.vue')
+  },
+  {
+    // 我的 => 电影订单列表
+    path: '/movieslist',
+    name: 'movieslist',
+    component: () => import('../views/Mine/movieslist.vue')
+  },
 ];
 
 const router = createRouter({

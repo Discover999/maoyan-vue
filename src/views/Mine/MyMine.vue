@@ -14,13 +14,13 @@
       <p>我的订单</p>
       <div class="line"></div>
       <div class="list-two">
-        <div class="left">
+        <div class="left" @click="goMoviesList">
           <!-- 电影部分 -->
           <!-- <img src="@/assets/img/movie.png" alt="" /> -->
           <span>电影</span>
         </div>
 
-        <div class="right">
+        <div class="right"  @click="goOrderList">
           <!-- <img src="@/assets/img/movie.png" alt="" /> -->
           <span>商城</span>
         </div>
@@ -85,6 +85,15 @@ export default {
     toMyGithub() {
       window.location.href = "https://github.com/Discover999";
     },
+    goOrderList() {
+      // 跳转到商城订单列表页面
+      this.$router.push({ path: '/orderlist' })
+    }
+    ,
+    goMoviesList() {
+      // 跳转到电影订单列表页面
+      this.$router.push({ path: '/movieslist' })
+    }
   },
 };
 </script>
